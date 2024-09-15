@@ -106,6 +106,7 @@ You can report this message to info@sierraromeo.com.au.";
                     };
                     return result;
                 }
+                else
                 {
                     // Errors at this level should come in the format described in the document
                     // "PBS Authority Common Details" (section 3.1).
