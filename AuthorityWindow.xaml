@@ -1,0 +1,224 @@
+﻿<!--
+ * Sierra Romeo: Authority request creation window
+ * Copyright 2024 David Adam <mail@davidadam.com.au>
+ * 
+ * Sierra Romeo is free software: you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ * 
+ * Sierra Romeo is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
+ * the GNU General Public License for more details.
+-->
+<Window x:Class="Sierra_Romeo.AuthorityWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:Sierra_Romeo" mc:Ignorable="d" SizeToContent="WidthAndHeight" ResizeMode="CanMinimize" Validation.Error="Window_Error" Title="New Authority Request">
+    <Window.Resources>
+        <Style TargetType="TextBox">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="ToolTip">
+                        <Setter.Value>
+                            <Binding Path="(Validation.Errors).CurrentItem.ErrorContent" RelativeSource="{x:Static RelativeSource.Self}" />
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Window.DataContext>
+        <local:AuthorityRequest />
+    </Window.DataContext>
+    <StackPanel Orientation="Vertical" Margin="5">
+        <GroupBox Header="Prescriber">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="_Prescriber number" Target="{Binding ElementName=prescriberNumberInput}" VerticalAlignment="Center" />
+                <TextBox x:Name="prescriberNumberInput" Margin="5,10" MinWidth="70" IsEnabled="{Binding Editable}" MaxLength="7" MaxLines="1">
+                    <TextBox.Text>
+                        <Binding Path="PrescriberId" NotifyOnValidationError="True">
+                            <Binding.ValidationRules>
+                                <local:MustExistValidation PropertyName="Prescriber number" />
+                                <local:NumericValidation />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Header="Patient">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label VerticalAlignment="Center" Content="_First name" Target="{Binding ElementName=firstNameInput}" />
+                    <TextBox x:Name="firstNameInput" Margin="5,10" MinWidth="130" Text="{Binding PatientDetails.FirstName}" IsEnabled="{Binding Editable}" MaxLines="1" MaxLength="40" />
+                    <Label VerticalAlignment="Center" Content="_Surname" Target="{Binding ElementName=lastNameInput}" />
+                    <TextBox x:Name="lastNameInput" Margin="5,10" MinWidth="130" Text="{Binding Path=PatientDetails.Surname}" IsEnabled="{Binding Editable}" MaxLines="1" MaxLength="40"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="_Medicare card number" Target="{Binding ElementName=medicareCardInput}" VerticalAlignment="Center" />
+                    <TextBox x:Name="medicareCardInput" Margin="5,10" MinWidth="140" HorizontalAlignment="Stretch" IsEnabled="{Binding Editable}" MaxLength="11" MaxLines="1">
+                        <TextBox.Text>
+                            <Binding Path="PatientDetails.MedicareNumber" NotifyOnValidationError="True">
+                                <Binding.ValidationRules>
+                                    <local:MustExistValidation PropertyName="Medicare card number" />
+                                    <local:NumericValidation />
+                                    <local:MedicareValidation />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Header="Prescription">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Authority prescription _number" VerticalAlignment="Center" Target="{Binding ElementName=scriptNumberInput}" />
+                    <TextBox x:Name="scriptNumberInput" Margin="5,10" MinWidth="70" IsEnabled="{Binding Editable}" MaxLength="8" MaxLines="1">
+                        <TextBox.Text>
+                            <Binding Path="ScriptNumber" NotifyOnValidationError="True">
+                                <Binding.ValidationRules>
+                                    <local:MustExistValidation PropertyName="Authority prescription number" />
+                                    <local:NumericValidation />
+                                    <local:AuthorityNumberValidation />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Drug" VerticalAlignment="Center" />
+                    <Button Content="Select _drug..." Click="DrugSearch_Click" Margin="10" IsEnabled="{Binding Editable}" />
+                    <TextBlock x:Name="selectDrug" Text="{Binding Drug}" TextTrimming="WordEllipsis" VerticalAlignment="Center" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Item" VerticalAlignment="Center" />
+                    <Button Content="Select PBS _item..." Click="ItemSearch_Click" Margin="10" IsEnabled="{Binding Editable}" />
+                    <StackPanel VerticalAlignment="Center" MaxWidth="400">
+                        <TextBlock Text="{Binding ItemDetails.Item.ItemCode}" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding ItemDetails.Item.RestrictionText}" TextTrimming="WordEllipsis" VerticalAlignment="Center" />
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Daily quantit_y" VerticalAlignment="Center" Target="{Binding ElementName=doseInput}" />
+                    <TextBox x:Name="doseInput" Margin="5,10" MinWidth="40" IsEnabled="{Binding Editable}" MaxLength="3" MaxLines="1">
+                        <TextBox.Text>
+                            <Binding Path="ItemDetails.Dose" NotifyOnValidationError="True">
+                                <Binding.ValidationRules>
+                                    <local:MustExistValidation PropertyName="Daily quantity" />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                    <Label Content="Prescribed _quantity" VerticalAlignment="Center" Target="{Binding ElementName=quantityInput}" />
+                    <TextBox x:Name="quantityInput" Margin="5,10" MinWidth="40" IsEnabled="{Binding Editable}" MaxLength="6" MaxLines="1">
+                        <TextBox.Text>
+                            <Binding Path="ItemDetails.Quantity" NotifyOnValidationError="True">
+                                <Binding.ValidationRules>
+                                    <local:MustExistValidation PropertyName="Prescribed quantity" />
+                                    <local:NumericValidation />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                    <Label Content="_Repeats" VerticalAlignment="Center" Target="{Binding ElementName=repeatsInput}" />
+                    <TextBox x:Name="repeatsInput" Margin="5,10" MinWidth="40" IsEnabled="{Binding Editable}" MaxLength="2" MaxLines="1">
+                        <TextBox.Text>
+                            <Binding Path="ItemDetails.NumberOfRepeats" NotifyOnValidationError="True">
+                                <Binding.ValidationRules>
+                                    <local:MustExistValidation PropertyName="Number of repeats" />
+                                    <local:NumericValidation />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+        <StackPanel Margin="10 10 10 5">
+            <CheckBox HorizontalAlignment="Left" x:Name="certifyIndicator" MinWidth="420" IsEnabled="{Binding Editable}">
+                <AccessText TextWrapping="Wrap" Text="I _agree all information for this PBS authority application is true and correct." />
+            </CheckBox>
+            <StackPanel Orientation="Horizontal">
+                <Button Margin="5" x:Name="submitButton" Content="Submit" IsDefault="True" IsEnabled="{Binding IsChecked, ElementName=certifyIndicator}" Click="Submit_Click" />
+                <Button Margin="5" x:Name="cancelButton" Content="Cancel" IsCancel="True" Click="Cancel_Click" />
+            </StackPanel>
+        </StackPanel>
+        <StackPanel x:Name="resultPanel" Visibility="Collapsed">
+            <StackPanel.DataContext>
+                <local:AuthorityResponse />
+            </StackPanel.DataContext>
+            <GroupBox Header="Result">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="{Binding AssessmentDetails.Text}" VerticalAlignment="Center" FontWeight="Bold">
+                            <Label.Style>
+                                <Style TargetType="{x:Type Label}">
+                                    <Setter Property="Foreground" Value="Red" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding AssessmentDetails.Text}" Value="Approved">
+                                            <Setter Property="Foreground" Value="Green" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding AssessmentDetails.Text}" Value="Previously
+rejected/now approved">
+                                            <Setter Property="Foreground" Value="Green" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding AssessmentDetails.Text}" Value="Authority not required">
+                                            <Setter Property="Foreground" Value="Green" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding AssessmentDetails.Text}" Value="Pending">
+                                            <Setter Property="Foreground" Value="DarkOrange" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Label.Style>
+                        </Label>
+                        <TextBox MinWidth="50" VerticalAlignment="Center" x:Name="approvalNumberText" Text="{Binding AuthorityApprovalNumber, Mode=OneWay}" IsReadOnly="True" Background="Transparent" BorderThickness="0" />
+                        <Button Content="_Copy" IsEnabled="{Binding Text.Length, ElementName=approvalNumberText}" Margin="10" Click="Copy_Click" />
+                    </StackPanel>
+                    <ItemsControl ItemsSource="{Binding StatusMessages}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="5" Orientation="Horizontal">
+                                    <TextBlock TextWrapping="Wrap" MaxWidth="500">
+                                        <TextBlock.Style>
+                                            <Style TargetType="{x:Type TextBlock}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding ReasonType}" Value="Reject">
+                                                        <Setter Property="Foreground" Value="Red" />
+                                                        <Setter Property="FontWeight" Value="Bold" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding ReasonType}" Value="Warning">
+                                                        <Setter Property="Foreground" Value="DarkGoldenrod" />
+                                                        <Setter Property="FontWeight" Value="Bold" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                        <Run Text="{Binding ReasonType}" />: <Run Text="{Binding ReasonText}" /> (code <Run Text="{Binding ReasonCode}" />)</TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="Override">
+                <GroupBox.Style>
+                    <Style TargetType="{x:Type GroupBox}">
+                        <Setter Property="Visibility" Value="Visible" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding OverrideDetail}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </GroupBox.Style>
+                <StackPanel>
+                    <Label Content="This rejection can be overridden if appropriate." />
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="R_eason" Target="{Binding ElementName=overrideSelect}" VerticalAlignment="Center" />
+                        <ComboBox x:Name="overrideSelect" Margin="10" Width="350" ItemsSource="{Binding OverrideDetail}" DisplayMemberPath="Text" VerticalAlignment="Center" />
+                        <Button x:Name="overrideButton" Click="Override_Click" Content="Request _override" />
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+    </StackPanel>
+</Window>
