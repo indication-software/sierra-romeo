@@ -76,22 +76,6 @@ You can report this message to info@sierraromeo.com.au.";
 
                 if (result.AssessmentDetails != null)
                 {
-                    // If this is a finalised result, mark the request as finalised (this is reflected in the UI)
-                    switch (result.AssessmentDetails.Code)
-                    // Fun note, this is a string, not an integer, which means type checking
-                    // didn't save me from having used the wrong property name above initially
-                    {
-                        case "1": // Approved
-                        case "2": // Approved with changes
-                        case "4": // Pending
-                        case "5": // Previously rejected/now approved
-                            authRequest.Editable = false;
-                            break;
-                        case "3": // Rejected - can be resent with changes
-                        case "6": // Authority not required - may need changing
-                                  // Editable is true by default
-                            break;
-                    }
                     return result;
                 }
                 else if (result.StatusMessages != null)
