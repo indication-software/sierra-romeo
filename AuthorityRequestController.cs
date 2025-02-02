@@ -33,8 +33,8 @@ namespace Sierra_Romeo
             Verbosity = HttpMessageParts.All
         };
         private static readonly HttpClient client = new HttpClient(tracer);
-        private static readonly Uri submitEndpoint = new Uri(Properties.Settings.Default.pbsEndpoint + "/authorities");
-        private static readonly Uri updateEndpoint = new Uri(Properties.Settings.Default.pbsEndpoint + "/authorities");
+        private static readonly Uri submitEndpoint = new Uri(Properties.Settings.Default.pbsEndpoint + "/assess/submit");
+        private static readonly Uri updateEndpoint = new Uri(Properties.Settings.Default.pbsEndpoint + "/assess/submit");
         private static readonly Uri questionsEndpointBase = new Uri(Properties.Settings.Default.pbsEndpoint + "/restrictionQuestion/");
         private static readonly JsonSerializerOptions serializeOptions = new JsonSerializerOptions
         {
