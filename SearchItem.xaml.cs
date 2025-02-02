@@ -91,12 +91,12 @@ namespace Sierra_Romeo
             cancellationToken?.Cancel();
             using (cancellationToken = new CancellationTokenSource())
             {
+                var token = cancellationToken.Token;
                 resultsList.ItemsSource = new List<PBSItem>();
-
                 try
                 {
-                    List<PBSItem> res = await GetSearchResultsAsync(queryInput.Text, cancellationToken.Token);
-                    if (!cancellationToken.Token.IsCancellationRequested && res != null)
+                    List<PBSItem> res = await GetSearchResultsAsync(queryInput.Text, token);
+                    if (!token.IsCancellationRequested && res != null)
                     {
                         resultsList.ItemsSource = res;
                         if (resultsList.Items.Count == 1)
