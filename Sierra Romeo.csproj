@@ -47,6 +47,8 @@
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>Sierra Romeo_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
     <SignAssembly>False</SignAssembly>
+    <NuGetAuditMode>all</NuGetAuditMode>
+    <PackageLicenseFile>COPYING.txt</PackageLicenseFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.Configuration" />
@@ -68,6 +70,10 @@
     <None Update="App.Release.config">
       <DependentUpon>App.config</DependentUpon>
       <IsTransformFile>true</IsTransformFile>
+    </None>
+    <None Update="COPYING.txt">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
     </None>
     <None Update="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
