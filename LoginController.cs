@@ -52,8 +52,11 @@ namespace Sierra_Romeo
             {
                 isLoggedOn = value;
                 OnPropertyChanged();
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsNotLoggedOn"));
             }
         }
+
+        public bool IsNotLoggedOn { get => !isLoggedOn; }
 
         public LogonStates LogonState
         {

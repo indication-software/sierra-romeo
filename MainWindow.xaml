@@ -44,20 +44,7 @@
                 </Style>
             </Label.Style>
         </Label>
-        <Button Content="_Log on" Click="Auth_Click" Grid.Row="0" Grid.Column="2" Padding="5,10" Margin="0,10">
-            <Button.Style>
-                <Style TargetType="{x:Type Button}">
-                    <Setter Property="IsEnabled" Value="True" />
-                    <Setter Property="IsDefault" Value="True" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsLoggedOn}" Value="True">
-                            <Setter Property="IsDefault" Value="False" />
-                            <Setter Property="IsEnabled" Value="False" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
-        </Button>
+        <Button Content="_Log on" Click="Auth_Click" Grid.Row="0" Grid.Column="2" Padding="5,10" Margin="0,10" IsEnabled="{Binding IsNotLoggedOn, Mode=OneWay}" IsDefault="{Binding IsNotLoggedOn, Mode=OneWay}" />
         <Button Content="_New Authority Request" Click="New_Click" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,10" IsEnabled="{Binding IsLoggedOn, Mode=OneWay}" IsDefault="{Binding IsLoggedOn, Mode=OneWay}" />
         <Button Content="_Settings" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,10" Click="Config_Click" />
         <Button Content="_Help / About" Grid.Row="3" Grid.ColumnSpan="2" Margin="0,10" Click="Help_Click" />
