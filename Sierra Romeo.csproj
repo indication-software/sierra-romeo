@@ -49,6 +49,7 @@
     <SignAssembly>False</SignAssembly>
     <NuGetAuditMode>all</NuGetAuditMode>
     <PackageLicenseFile>COPYING.txt</PackageLicenseFile>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.Configuration" />
