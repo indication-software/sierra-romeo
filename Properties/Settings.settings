@@ -11,9 +11,6 @@
     <Setting Name="prodaEndpoint" Type="System.String" Scope="Application">
       <Value Profile="(Default)">https://vnd.proda.humanservices.gov.au</Value>
     </Setting>
-    <Setting Name="pbsEndpoint" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">https://test.5.rsp.humanservices.gov.au/rest/pbsauth</Value>
-    </Setting>
     <Setting Name="clientName" Type="System.String" Scope="Application">
       <Value Profile="(Default)">Sierra Romeo</Value>
     </Setting>
@@ -25,6 +22,9 @@
     </Setting>
     <Setting Name="pbsserveEndpoint" Type="System.String" Scope="Application">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="pbsEndpoint" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://test.healthclaiming.api.humanservices.gov.au/claiming/ext-vnd/pbsauth</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -55,15 +55,6 @@ namespace Sierra_Romeo.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://test.5.rsp.humanservices.gov.au/rest/pbsauth")]
-        public string pbsEndpoint {
-            get {
-                return ((string)(this["pbsEndpoint"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Sierra Romeo")]
         public string clientName {
             get {
@@ -98,6 +89,15 @@ namespace Sierra_Romeo.Properties {
         public string pbsserveEndpoint {
             get {
                 return ((string)(this["pbsserveEndpoint"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://test.healthclaiming.api.humanservices.gov.au/claiming/ext-vnd/pbsauth")]
+        public string pbsEndpoint {
+            get {
+                return ((string)(this["pbsEndpoint"]));
             }
         }
     }
