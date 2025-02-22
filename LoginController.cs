@@ -132,8 +132,8 @@ namespace Sierra_Romeo
                 {
                     { "grant_type", "authorization_code" },
                     { "code", code },
-                    { "redirect_uri", Properties.Settings.Default.uriScheme + ":authcode" },
-                    { "client_id",  Properties.Settings.Default.clientId },
+                    { "redirect_uri", System.Configuration.ConfigurationManager.AppSettings["uriScheme"] + ":authcode" },
+                    { "client_id",  System.Configuration.ConfigurationManager.AppSettings["clientId"] },
                     { "code_verifier", pending[state].Verifier }
                 };
 
@@ -207,7 +207,7 @@ namespace Sierra_Romeo
                 {
                     { "grant_type", "refresh_token" },
                     { "refresh_token", RefreshToken },
-                    { "client_id",  Properties.Settings.Default.clientId },
+                    { "client_id",  System.Configuration.ConfigurationManager.AppSettings["clientId"] },
                 };
 
             RequestNewToken(PRODA.RefreshEndpoint(), p);
@@ -223,7 +223,7 @@ namespace Sierra_Romeo
 
     static class PRODA
     {
-        private static readonly string host = Properties.Settings.Default.prodaEndpoint;
+        private static readonly string host = System.Configuration.ConfigurationManager.AppSettings["prodaEndpoint"];
         public static string RequestEndpoint()
         {
             return host + "/mga/sps/oauth/oauth20/token";
@@ -274,8 +274,8 @@ namespace Sierra_Romeo
         public static string KickoffURL(AuthRequest authRequest)
         {
             string endpoint = KickoffEndpoint();
-            string client_id = Properties.Settings.Default.clientId;
-            string redirect_uri = WebUtility.UrlEncode(Properties.Settings.Default.uriScheme + ":authcode");
+            string client_id = System.Configuration.ConfigurationManager.AppSettings["clientId"];
+            string redirect_uri = WebUtility.UrlEncode(System.Configuration.ConfigurationManager.AppSettings["uriScheme"] + ":authcode");
             string code_challenge = VerifierToChallenge(authRequest.Verifier);
 
             return $"{endpoint}?response_type=code&client_id={client_id}&scope=PBSAuthorities" +

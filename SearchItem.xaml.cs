@@ -34,7 +34,7 @@ namespace Sierra_Romeo
             Verbosity = HttpMessageParts.All
         };
         private static readonly HttpClient client = new HttpClient(tracer);
-        private static readonly Uri endpoint = new Uri(Properties.Settings.Default.pbsserveEndpoint + "/v1/item");
+        private static readonly Uri endpoint = new Uri(System.Configuration.ConfigurationManager.AppSettings["pbsserveEndpoint"] + "/v1/item");
         public string PrescriberNumber;
 
         private CancellationTokenSource cancellationToken = null;

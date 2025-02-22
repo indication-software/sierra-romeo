@@ -33,9 +33,9 @@ namespace Sierra_Romeo
             Verbosity = HttpMessageParts.All
         };
         private static readonly HttpClient client = new HttpClient(tracer);
-        private static readonly Uri submitEndpoint = new Uri(Properties.Settings.Default.pbsEndpoint + "/assess/submit");
-        private static readonly Uri updateEndpoint = new Uri(Properties.Settings.Default.pbsEndpoint + "/assess/submit");
-        private static readonly Uri questionsEndpointBase = new Uri(Properties.Settings.Default.pbsEndpoint + "/restrictionQuestion/");
+        private static readonly Uri submitEndpoint = new Uri(System.Configuration.ConfigurationManager.AppSettings["pbsEndpoint"] + "/assess/submit");
+        private static readonly Uri updateEndpoint = new Uri(System.Configuration.ConfigurationManager.AppSettings["pbsEndpoint"] + "/assess/submit");
+        private static readonly Uri questionsEndpointBase = new Uri(System.Configuration.ConfigurationManager.AppSettings["pbsEndpoint"] + "/restrictionQuestion/");
         private static readonly JsonSerializerOptions serializeOptions = new JsonSerializerOptions
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
@@ -54,7 +54,7 @@ You can report this message to info@sierraromeo.com.au.";
         {
             this.loginController = loginController;
             // Close connections after 60 seconds, see https://contrivedexample.com/2017/07/01/using-httpclient-as-it-was-intended-because-youre-not/ etc
-            ServicePointManager.FindServicePoint(new Uri(Properties.Settings.Default.pbsEndpoint)).ConnectionLeaseTimeout = 60 * 1000;
+            ServicePointManager.FindServicePoint(new Uri(System.Configuration.ConfigurationManager.AppSettings["pbsEndpoint"])).ConnectionLeaseTimeout = 60 * 1000;
         }
 
         public async Task<AuthorityResponse> SubmitRequest(AuthorityRequest authRequest)
@@ -203,7 +203,7 @@ You can report this message to info@sierraromeo.com.au.";
             httpRequestMessage.Headers.Add("dhs-auditId", PrescriberId);
             httpRequestMessage.Headers.Add("dhs-subjectId", PrescriberId);
             httpRequestMessage.Headers.Add("dhs-subjectIdType", "PRESCRIBER");
-            httpRequestMessage.Headers.Add("dhs-productId", Properties.Settings.Default.clientName);
+            httpRequestMessage.Headers.Add("dhs-productId", System.Configuration.ConfigurationManager.AppSettings["clientName"]);
             httpRequestMessage.Headers.Add("Authorization", loginController.AccessToken);
         }
     }
