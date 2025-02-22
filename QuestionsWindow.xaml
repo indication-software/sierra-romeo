@@ -18,7 +18,9 @@
         xmlns:local="clr-namespace:Sierra_Romeo"
         mc:Ignorable="d"
         Title="Restriction Questions" SizeToContent="WidthAndHeight"
-        DataContext="{Binding RelativeSource={RelativeSource Self}}">
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
+        ui:WindowHelper.UseModernWindowStyle="True">
     <Window.Resources>
         <DataTemplate x:Key="TextTemplate" DataType="{x:Type local:RestrictionQuestionDetail}">
             <StackPanel Margin="5" Orientation="Horizontal">

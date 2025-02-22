@@ -10,7 +10,7 @@
  * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
  * the GNU General Public License for more details.
 -->
-<Window x:Class="Sierra_Romeo.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:Sierra_Romeo" mc:Ignorable="d" Title="Sierra Romeo" MinWidth="300" d:DataContext="{d:DesignInstance {x:Type local:LoginController}}" SizeToContent="WidthAndHeight" ResizeMode="CanMinimize">
+<Window x:Class="Sierra_Romeo.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:Sierra_Romeo" mc:Ignorable="d" Title="Sierra Romeo" d:DataContext="{d:DesignInstance {x:Type local:LoginController}}" SizeToContent="WidthAndHeight" ResizeMode="CanMinimize" xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern" ui:WindowHelper.UseModernWindowStyle="True">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -44,8 +44,8 @@
                 </Style>
             </Label.Style>
         </Label>
-        <Button Content="_Log on" Click="Auth_Click" Grid.Row="0" Grid.Column="2" Padding="5,10" Margin="0,10" IsEnabled="{Binding IsNotLoggedOn, Mode=OneWay}" IsDefault="{Binding IsNotLoggedOn, Mode=OneWay}" />
-        <Button Content="_New Authority Request" Click="New_Click" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,10" IsEnabled="{Binding IsLoggedOn, Mode=OneWay}" IsDefault="{Binding IsLoggedOn, Mode=OneWay}" />
+        <Button Content="_Log on" Click="Auth_Click" Grid.Row="0" Grid.Column="2" Margin="0,10" IsEnabled="{Binding IsNotLoggedOn, Mode=OneWay}" IsDefault="{Binding IsNotLoggedOn, Mode=OneWay}" Style="{StaticResource {x:Static ui:ThemeKeys.AccentButtonStyleKey}}" />
+        <Button Content="_New Authority Request" Click="New_Click" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,10" IsEnabled="{Binding IsLoggedOn, Mode=OneWay}" IsDefault="{Binding IsLoggedOn, Mode=OneWay}" Style="{StaticResource {x:Static ui:ThemeKeys.AccentButtonStyleKey}}" />
         <Button Content="_Settings" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,10" Click="Config_Click" />
         <Button Content="_Help / About" Grid.Row="3" Grid.ColumnSpan="2" Margin="0,10" Click="Help_Click" />
     </Grid>

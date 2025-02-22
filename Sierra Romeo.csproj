@@ -97,6 +97,7 @@
     <PackageReference Include="HttpTracer">
       <Version>2.1.1</Version>
     </PackageReference>
+    <PackageReference Include="iNKORE.UI.WPF.Modern" Version="0.10.0" />
     <PackageReference Include="Microsoft.VisualBasic" Version="10.3.0" />
     <PackageReference Include="Microsoft.VisualStudio.SlowCheetah">
       <Version>4.0.50</Version>
