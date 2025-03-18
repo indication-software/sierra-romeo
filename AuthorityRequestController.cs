@@ -28,7 +28,7 @@ namespace Sierra_Romeo
     public class AuthorityRequestController
     {
         internal LoginController loginController;
-        internal static HttpTracerHandler tracer = new HttpTracerHandler
+        internal static HttpTracerHandler tracer = new HttpTracerHandler(new TraceLogger())
         {
             Verbosity = HttpMessageParts.All
         };

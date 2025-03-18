@@ -29,7 +29,7 @@ namespace Sierra_Romeo
     /// </summary>
     public partial class SearchItem : Window
     {
-        internal static HttpTracerHandler tracer = new HttpTracerHandler
+        internal static HttpTracerHandler tracer = new HttpTracerHandler(new TraceLogger())
         {
             Verbosity = HttpMessageParts.All
         };

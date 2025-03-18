@@ -11,6 +11,7 @@
  * the GNU General Public License for more details.
  */
 
+using HttpTracer.Logger;
 using Microsoft.VisualBasic.ApplicationServices;
 using Microsoft.Win32;
 using System;
@@ -175,4 +176,12 @@ namespace Sierra_Romeo
         }
     }
 
+    public class TraceLogger : ILogger
+    {
+        /// <summary>
+        /// Logs the Trace Message using the Trace class
+        /// </summary>
+        /// <param name="message"><see cref="HttpTracer"/> Trace message</param>
+        public void Log(string message) => Trace.WriteLine(message);
+    }
 }
