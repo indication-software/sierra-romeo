@@ -159,6 +159,7 @@ namespace Sierra_Romeo
                 // XXX
                 MessageBox.Show(e.Message, "Sierra Romeo: Error",
                     MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
             }
 
             var authToken = JsonSerializer.Deserialize<AuthTokenResponse>(responseString);
