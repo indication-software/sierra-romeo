@@ -33,7 +33,7 @@
                 <Label Content="_Prescriber number" Target="{Binding ElementName=prescriberNumberInput}" VerticalAlignment="Center" />
                 <TextBox x:Name="prescriberNumberInput" Margin="5,10" MinWidth="70" IsEnabled="{Binding Editable}" MaxLength="7" MaxLines="1">
                     <TextBox.Text>
-                        <Binding Path="PrescriberId" NotifyOnValidationError="True">
+                        <Binding Path="PrescriberID" NotifyOnValidationError="True">
                             <Binding.ValidationRules>
                                 <local:MustExistValidation PropertyName="Prescriber number" />
                                 <local:NumericValidation />
@@ -47,9 +47,9 @@
             <StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Label VerticalAlignment="Center" Content="_First name" Target="{Binding ElementName=firstNameInput}" />
-                    <TextBox x:Name="firstNameInput" Margin="5,10" MinWidth="130" Text="{Binding PatientDetails.FirstName}" IsEnabled="{Binding Editable}" MaxLines="1" MaxLength="40" />
+                    <TextBox x:Name="firstNameInput" Margin="5,10" MinWidth="130" Text="{Binding PatientDetails.PatientFirstName}" IsEnabled="{Binding Editable}" MaxLines="1" MaxLength="40" />
                     <Label VerticalAlignment="Center" Content="_Surname" Target="{Binding ElementName=lastNameInput}" />
-                    <TextBox x:Name="lastNameInput" Margin="5,10" MinWidth="130" Text="{Binding Path=PatientDetails.Surname}" IsEnabled="{Binding Editable}" MaxLines="1" MaxLength="40"></TextBox>
+                    <TextBox x:Name="lastNameInput" Margin="5,10" MinWidth="130" Text="{Binding Path=PatientDetails.PatientSurname}" IsEnabled="{Binding Editable}" MaxLines="1" MaxLength="40"></TextBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Label Content="_Medicare card number" Target="{Binding ElementName=medicareCardInput}" VerticalAlignment="Center" />

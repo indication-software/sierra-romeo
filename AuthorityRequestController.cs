@@ -61,7 +61,7 @@ You can report this message to info@sierraromeo.com.au.";
         {
             string jsonString = JsonSerializer.Serialize(authRequest, serializeOptions);
 
-            HttpResponseMessage response = await client.SendAsync(PrepareRequest(authRequest.PrescriberId, submitEndpoint, HttpMethod.Post, jsonString));
+            HttpResponseMessage response = await client.SendAsync(PrepareRequest(authRequest.PrescriberID, submitEndpoint, HttpMethod.Post, jsonString));
             string responseString = await response.Content.ReadAsStringAsync();
 
             try
@@ -69,9 +69,9 @@ You can report this message to info@sierraromeo.com.au.";
                 response.EnsureSuccessStatusCode();
                 var result = JsonSerializer.Deserialize<AuthorityResponse>(responseString, serializeOptions);
 
-                if (result.AuthorityUniqueId != null)
+                if (result.AuthorityUniqueID != null)
                 {
-                    authRequest.AuthorityUniqueId = result.AuthorityUniqueId;
+                    authRequest.AuthorityUniqueID = result.AuthorityUniqueID;
                 }
 
                 if (result.AssessmentDetails != null)
@@ -114,7 +114,7 @@ You can report this message to info@sierraromeo.com.au.";
             authRequest.OverrideCode = overrideDetail.Code;
             string jsonString = JsonSerializer.Serialize(authRequest, serializeOptions);
 
-            HttpResponseMessage response = await client.SendAsync(PrepareRequest(authRequest.PrescriberId, updateEndpoint, HttpMethod.Put, jsonString));
+            HttpResponseMessage response = await client.SendAsync(PrepareRequest(authRequest.PrescriberID, updateEndpoint, HttpMethod.Put, jsonString));
             string responseString = await response.Content.ReadAsStringAsync();
 
             try
@@ -160,11 +160,11 @@ You can report this message to info@sierraromeo.com.au.";
 
         public async Task<RestrictionQuestionDetail[]> GetRestrictionQuestions(AuthorityRequest authRequest, CancellationToken cancellationToken)
         {
-            Uri url = new Uri(questionsEndpointBase, $"{authRequest.PrescriberId}/{authRequest.ItemDetails.Code}/{authRequest.RestrictionQuestionDetails.Code}");
+            Uri url = new Uri(questionsEndpointBase, $"{authRequest.PrescriberID}/{authRequest.ItemDetails.Code}/{authRequest.RestrictionQuestionDetails.ItemCode}");
 
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, url);
             httpRequestMessage.Headers.Host = url.Host;
-            AddHeaders(httpRequestMessage, authRequest.PrescriberId);
+            AddHeaders(httpRequestMessage, authRequest.PrescriberID);
 
             HttpResponseMessage response = await client.SendAsync(httpRequestMessage, cancellationToken);
             string responseString = await response.Content.ReadAsStringAsync();

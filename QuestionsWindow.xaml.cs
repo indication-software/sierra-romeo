@@ -38,16 +38,16 @@ namespace Sierra_Romeo
             {
                 var a = new AuthorityAnswer
                 {
-                    Code = q.RestrictionQuestionCode
+                    RestrictionQuestionCode = q.RestrictionQuestionCode
                 };
                 if (q.RestrictionAnswerType == "LIST")
                 {
-                    a.AnswerListCode = q.RestrictionAnswerList.RestrictionAnswerListCode;
-                    a.AnswerId = int.Parse(q.AnswerOption.RestrictionAnswerId);
+                    a.RestrictionQuestionAnswerListCode = q.RestrictionAnswerList.RestrictionAnswerListCode;
+                    a.RestrictionAnswerId = int.Parse(q.AnswerOption.RestrictionAnswerId);
                 }
                 else
                 {
-                    a.AnswerText = q.AnswerText;
+                    a.RestrictionQuestionAnswerText = q.AnswerText;
                 }
 
                 RestrictionAnswers.Add(a);

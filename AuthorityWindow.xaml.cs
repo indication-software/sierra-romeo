@@ -53,8 +53,8 @@ namespace Sierra_Romeo
                     // or the JSON was malformed.
 
                     currentRequest.ScriptNumber = imported.ScriptNumber;
-                    currentRequest.PatientDetails.FirstName = imported.FirstName;
-                    currentRequest.PatientDetails.Surname = imported.Surname;
+                    currentRequest.PatientDetails.PatientFirstName = imported.FirstName;
+                    currentRequest.PatientDetails.PatientSurname = imported.Surname;
                     currentRequest.PatientDetails.MedicareNumber = imported.MedicareNumber;
                     currentRequest.ItemDetails.Quantity = imported.Quantity;
                     currentRequest.ItemDetails.NumberOfRepeats = imported.Repeats;
@@ -105,7 +105,7 @@ namespace Sierra_Romeo
             var SearchWindow = new SearchDrug
             {
                 Owner = this,
-                PrescriberNumber = currentRequest.PrescriberId
+                PrescriberNumber = currentRequest.PrescriberID
             };
             if (lastDrugSearch != "")
             {
@@ -130,7 +130,7 @@ namespace Sierra_Romeo
             var SearchWindow = new SearchItem
             {
                 Owner = this,
-                PrescriberNumber = currentRequest.PrescriberId
+                PrescriberNumber = currentRequest.PrescriberID
             };
             if (currentDrug != null)
             {
@@ -142,7 +142,7 @@ namespace Sierra_Romeo
             if (searchRet.HasValue && searchRet.Value)
             {
                 currentRequest.ItemDetails.Item = SearchWindow.CurrentItem;
-                currentRequest.RestrictionQuestionDetails.Code = SearchWindow.CurrentItem.Restriction;
+                currentRequest.RestrictionQuestionDetails.ItemCode = SearchWindow.CurrentItem.Restriction;
 
                 // Rather than implement INotifyPropertyChanged on AMTDrug,
                 // just build a new one and make it the datacontext for the label
@@ -154,7 +154,7 @@ namespace Sierra_Romeo
                 };
                 selectDrug.DataContext = currentDrug;
 
-                currentRequest.RestrictionQuestionDetails.Questions = null;
+                currentRequest.RestrictionQuestionDetails.RestrictionQuestion = null;
 
                 using (questionsCancellationToken = new CancellationTokenSource())
                 {
@@ -174,7 +174,7 @@ namespace Sierra_Romeo
 
                             if (questionsRet.HasValue && questionsRet.Value)
                             {
-                                currentRequest.RestrictionQuestionDetails.Questions = QuestionsWindow.RestrictionAnswers.ToArray();
+                                currentRequest.RestrictionQuestionDetails.RestrictionQuestion = QuestionsWindow.RestrictionAnswers.ToArray();
                             }
                         }
                     }
@@ -225,8 +225,8 @@ namespace Sierra_Romeo
                     { return c.ErrorContent.ToString(); });
 
                 // These fields are initialised to empty strings
-                if (currentRequest.PatientDetails.FirstName == "" &&
-                    currentRequest.PatientDetails.Surname == "")
+                if (currentRequest.PatientDetails.PatientFirstName == "" &&
+                    currentRequest.PatientDetails.PatientSurname == "")
                 {
                     validationMessages.Add("At least one of first name or surname must be provided");
                 }

@@ -19,9 +19,9 @@ namespace Sierra_Romeo
 
     public class AuthorityResponse
     {
-        public string AuthorityUniqueId { get; set; }
+        public string AuthorityUniqueID { get; set; }
         public string AuthorityPrescriptionNumber { get; set; }
-        public string PrescriberId { get; set; }
+        public string PrescriberID { get; set; }
         public OverrideDetail[] OverrideDetail { get; set; }
         public AssessmentDetails AssessmentDetails { get; set; }
         public string AuthorityApprovalNumber { get; set; }
@@ -32,13 +32,17 @@ namespace Sierra_Romeo
 
     public class AssessmentDetails
     {
+        [JsonPropertyName("assessmentResultCode")]
         public string Code { get; set; }
+        [JsonPropertyName("assessmentResultText")]
         public string Text { get; set; }
     }
 
     public class OverrideDetail
     {
+        [JsonPropertyName("overrideCode")]
         public string Code { get; set; }
+        [JsonPropertyName("overrideText")]
         public string Text { get; set; }
     }
 

@@ -18,10 +18,11 @@ namespace Sierra_Romeo
 {
     public class RestrictionQuestionsResponse
     {
-        public string PrescriberId { get; set; }
+        public string PrescriberID { get; set; }
         public string ItemCode { get; set; }
         public string RestrictionCode { get; set; }
         public RestrictionQuestionDetail[] RestrictionQuestionDetails { get; set; }
+        public DynamicQandADetail[] DynamicQandADetails { get; set; }
         public StatusMessage[] StatusMessages { get; set; }
         [JsonExtensionData]
         public Dictionary<string, object> ExtensionData { get; set; }
@@ -61,5 +62,10 @@ namespace Sierra_Romeo
         public string RestrictionAnswerId { get; set; }
         public string RestrictionAnswerOrderNumber { get; set; }
         public string RestrictionAnswerText { get; set; }
+    }
+
+    public class DynamicQandADetail
+    {
+
     }
 }

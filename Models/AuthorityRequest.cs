@@ -52,6 +52,10 @@ namespace Sierra_Romeo
         public int Quantity { get; set; }
         public int NumberOfRepeats { get; set; }
         public string Dose { get; set; }
+        public int? DoseFrequency { get; set; }
+        public int? DoseInterval { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string DoseIntervalUnit { get; set; } = "";
 
         // See https://docs.microsoft.com/en-us/dotnet/desktop/wpf/data/how-to-implement-property-change-notification?view=netframeworkdesktop-4.8
         public event PropertyChangedEventHandler PropertyChanged;
@@ -66,24 +70,51 @@ namespace Sierra_Romeo
     public class AuthorityPatient
     {
         public string MedicareNumber { get; set; } = "";
-        public string FirstName { get; set; } = "";
-        public string Surname { get; set; } = "";
+        public string PatientFirstName { get; set; } = "";
+        public string PatientSurname { get; set; } = "";
 
     }
 
     public class AuthorityDetails
     {
-        public string Code { get; set; }
+        public string ItemCode { get; set; }
 
-        public AuthorityAnswer[] Questions { get; set; }
+        public AuthorityAnswer[] RestrictionQuestion { get; set; }
     }
 
     public class AuthorityAnswer
     {
-        public int Code { get; set; }
-        public string AnswerText { get; set; }
-        public string AnswerListCode { get; set; }
-        public int? AnswerId { get; set; }
+        /// <summary>
+        ///  Answers in the QAMS format
+        /// </summary>
+        public int RestrictionQuestionCode { get; set; }
+        public string RestrictionQuestionAnswerText { get; set; }
+        public string RestrictionQuestionAnswerListCode { get; set; }
+        public int? RestrictionAnswerId { get; set; }
+    }
+
+    public class AuthorityDQAnswer
+    {
+        /// <summary>
+        /// Answers in the DQ&A format
+        /// </summary>
+        /// These properties do not match the JSON property names because the latter are bad
+        [JsonPropertyName("questId")]
+        public string Id { get; set; } = "";
+        [JsonPropertyName("questGroup")]
+        public string Group { get; set; } = "";
+        [JsonPropertyName("ansDataType")]
+        public string AnswerDataType { get; set; } = "";
+        [JsonPropertyName("ansString")]
+        public string AnswerString { get; set; }
+        [JsonPropertyName("ansNumber")]
+        public double? AnswerNumber { get; set; }
+        [JsonIgnore]
+        public DateTime AnswerDateTime { get; set; }
+        [JsonPropertyName("ansDate")]
+        public string AnswerDate { get => AnswerDateTime.ToString("yyyy-MM-dd"); }
+        [JsonPropertyName("ansDecFormat")]
+        public decimal? AnswerDecimal { get; set; }
     }
 
     public class AuthorityRequest : INotifyPropertyChanged
@@ -92,7 +123,7 @@ namespace Sierra_Romeo
         /// This class holds the details of the current authority request
         /// and is used as the scaffolding for the JSON request
         /// </summary>
-        public string PrescriberId { get; set; } = Properties.Settings.Default.PrescriberNumber;
+        public string PrescriberID { get; set; } = Properties.Settings.Default.PrescriberNumber;
 
         [JsonPropertyName("authorityPrescriptionNumber")]
         public string ScriptNumber { get; set; } = "";
@@ -105,11 +136,23 @@ namespace Sierra_Romeo
 
         public AuthorityDetails RestrictionQuestionDetails { get; set; } = new AuthorityDetails();
 
+        public AuthorityDQAnswer[] DynamicQuestAnswerValue { get; set; }
+
+        [JsonIgnore]
+        public DateTime PrescribingDate { get; set; } = DateTime.Now;
+        [JsonPropertyName("dateOfPrescribing")]
+        public string strPrescribingDate { get => PrescribingDate.ToString("yyyy-MM-dd"); }
+
+        [JsonIgnore]
+        public DateTime LodgementDate { get; set; } = DateTime.Now;
+        [JsonPropertyName("dateOfLodgement")]
+        public string strLodgementDate { get => LodgementDate.ToString("yyyy-MM-dd"); }
+
         // Only used for updates
         public string OverrideCode { get; set; }
 
         // Only used for updates
-        public string AuthorityUniqueId { get; set; }
+        public string AuthorityUniqueID { get; set; }
 
         [JsonIgnore]
         private bool editable = true;
