@@ -60,9 +60,22 @@ You can report this message to info@sierraromeo.com.au.";
         public async Task<AuthorityResponse> SubmitRequest(AuthorityRequest authRequest)
         {
             string jsonString = JsonSerializer.Serialize(authRequest, serializeOptions);
+            string responseString;
+            HttpResponseMessage response;
 
-            HttpResponseMessage response = await client.SendAsync(PrepareRequest(authRequest.PrescriberID, submitEndpoint, HttpMethod.Post, jsonString));
-            string responseString = await response.Content.ReadAsStringAsync();
+            // XXX
+            try
+            {
+                response = await client.SendAsync(PrepareRequest(authRequest.PrescriberID, submitEndpoint, HttpMethod.Post, jsonString));
+                responseString = await response.Content.ReadAsStringAsync();
+            }
+            catch (HttpRequestException e)
+            {
+                // XXX
+                MessageBox.Show(e.Message, "Sierra Romeo: Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                return null;
+            }
 
             try
             {
@@ -160,14 +173,26 @@ You can report this message to info@sierraromeo.com.au.";
 
         public async Task<RestrictionQuestionDetail[]> GetRestrictionQuestions(AuthorityRequest authRequest, CancellationToken cancellationToken)
         {
+            string responseString;
             Uri url = new Uri(questionsEndpointBase, $"{authRequest.PrescriberID}/{authRequest.ItemDetails.ItemCode}/{authRequest.RestrictionQuestionDetails.RestrictionCode}");
 
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, url);
             httpRequestMessage.Headers.Host = url.Host;
             AddHeaders(httpRequestMessage, authRequest.PrescriberID);
 
-            HttpResponseMessage response = await client.SendAsync(httpRequestMessage, cancellationToken);
-            string responseString = await response.Content.ReadAsStringAsync();
+            // XXX
+            try
+            {
+                HttpResponseMessage response = await client.SendAsync(httpRequestMessage, cancellationToken);
+                responseString = await response.Content.ReadAsStringAsync();
+            }
+            catch (HttpRequestException e)
+            {
+                // XXX
+                MessageBox.Show("An error occurred while requesting restriction questions: " + e.Message + " Your authority request may not be successful. Try selecting the item again.", "Sierra Romeo: Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                return null;
+            }
 
             var responseObj = JsonSerializer.Deserialize<RestrictionQuestionsResponse>(responseString, serializeOptions);
 
