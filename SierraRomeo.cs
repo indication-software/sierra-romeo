@@ -16,6 +16,8 @@ using Microsoft.VisualBasic.ApplicationServices;
 using Microsoft.Win32;
 using System;
 using System.Diagnostics;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Web;
 using System.Windows;
 
@@ -183,5 +185,31 @@ namespace Sierra_Romeo
         /// </summary>
         /// <param name="message"><see cref="HttpTracer"/> Trace message</param>
         public void Log(string message) => Trace.WriteLine(message);
+    }
+
+    public class TrimmingConverter : JsonConverter<String>
+    {
+        /// <summary>
+        /// For reasons that are unclear, some JSON elements are returned from the PBS questions interface
+        /// with a long suffix of whitespace. This converter allows these to be trimmed.
+        /// </summary>
+        /// Idea from https://stackoverflow.com/questions/19271470/deserialize-json-with-auto-trimming-strings
+        /// <param name="reader"></param>
+        /// <param name="typeToConvert"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        public override string Read(ref Utf8JsonReader reader,
+            Type typeToConvert,
+            JsonSerializerOptions options)
+        {
+            return reader.GetString().Trim();
+        }
+
+        public override void Write(Utf8JsonWriter writer,
+            string value,
+            JsonSerializerOptions options)
+        {
+            writer.WriteStringValue(value);
+        }
     }
 }
