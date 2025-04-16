@@ -179,8 +179,14 @@ You can report this message to info@sierraromeo.com.au.";
 
         public HttpRequestMessage PrepareRequest(string PrescriberId, Uri url, HttpMethod method, string json)
         {
-            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            StringContent json_content = new StringContent(json, Encoding.UTF8, "application/json");
+            MultipartFormDataContent content = new MultipartFormDataContent
+            {
+                // Embedded quotes are important here. The Services Australia endpoint requires them. This was
+                // required by RFC 2616, but are not by RFC 6266. Perhaps there is an ancient HTTP library,
+                // perhaps there are regular expressions for parsing HTTP headers.
+                { json_content, "authoritydetails", "\"AssessAuthorityRequest.json\"" }
+            };
 
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage(method, url);
             httpRequestMessage.Headers.Host = url.Host;
