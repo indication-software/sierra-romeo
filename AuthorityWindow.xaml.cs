@@ -142,7 +142,7 @@ namespace Sierra_Romeo
             if (searchRet.HasValue && searchRet.Value)
             {
                 currentRequest.ItemDetails.Item = SearchWindow.CurrentItem;
-                currentRequest.RestrictionQuestionDetails.ItemCode = SearchWindow.CurrentItem.Restriction;
+                currentRequest.RestrictionQuestionDetails.RestrictionCode = SearchWindow.CurrentItem.Restriction;
 
                 // Rather than implement INotifyPropertyChanged on AMTDrug,
                 // just build a new one and make it the datacontext for the label
@@ -232,7 +232,7 @@ namespace Sierra_Romeo
                 }
 
                 // Code is a calculated property that returns the empty string if the item is null
-                if (currentRequest.ItemDetails.Code == "")
+                if (currentRequest.ItemDetails.ItemCode == "")
                 {
                     validationMessages.Add("A drug/item must be selected");
                 }

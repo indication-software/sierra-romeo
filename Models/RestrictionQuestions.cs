@@ -18,14 +18,20 @@ namespace Sierra_Romeo
 {
     public class RestrictionQuestionsResponse
     {
-        public string PrescriberID { get; set; }
+        public string PrescriberId { get; set; }
         public string ItemCode { get; set; }
         public string RestrictionCode { get; set; }
-        public RestrictionQuestionDetail[] RestrictionQuestionDetails { get; set; }
+        public RestrictionQuestionWrapper RestrictionQuestionDetails { get; set; }
         public DynamicQandADetail[] DynamicQandADetails { get; set; }
         public StatusMessage[] StatusMessages { get; set; }
         [JsonExtensionData]
         public Dictionary<string, object> ExtensionData { get; set; }
+    }
+
+
+    public class RestrictionQuestionWrapper
+    {
+        public RestrictionQuestionDetail[] RestrictionQuestion { get; set; }
     }
 
 
@@ -40,6 +46,7 @@ namespace Sierra_Romeo
 
         public int RestrictionQuestionCode { get; set; }
         public int RestrictionQuestionOrderNumber { get; set; }
+        [JsonConverter(typeof(TrimmingConverter))]
         public string RestrictionQuestionText { get; set; }
         public bool RestrictionQuestionMandatory { get; set; }
         public string RestrictionAnswerType { get; set; }
@@ -59,8 +66,9 @@ namespace Sierra_Romeo
 
     public class RestrictionAnswerOption
     {
-        public string RestrictionAnswerId { get; set; }
-        public string RestrictionAnswerOrderNumber { get; set; }
+        public int RestrictionAnswerID { get; set; }
+        public int RestrictionAnswerOrderNumber { get; set; }
+        [JsonConverter(typeof(TrimmingConverter))]
         public string RestrictionAnswerText { get; set; }
     }
 

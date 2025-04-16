@@ -35,7 +35,7 @@ namespace Sierra_Romeo
                 OnPropertyChanged();
             }
         }
-        public string Code
+        public string ItemCode
         {
             get
             {
@@ -77,7 +77,7 @@ namespace Sierra_Romeo
 
     public class AuthorityDetails
     {
-        public string ItemCode { get; set; }
+        public string RestrictionCode { get; set; }
 
         public AuthorityAnswer[] RestrictionQuestion { get; set; }
     }
@@ -88,9 +88,9 @@ namespace Sierra_Romeo
         ///  Answers in the QAMS format
         /// </summary>
         public int RestrictionQuestionCode { get; set; }
-        public string RestrictionQuestionAnswerText { get; set; }
-        public string RestrictionQuestionAnswerListCode { get; set; }
-        public int? RestrictionAnswerId { get; set; }
+        public string RestrictionQuestionAnswer { get; set; }
+        public string RestrictionAnswerListCode { get; set; }
+        public string RestrictionAnswerID { get; set; }
     }
 
     public class AuthorityDQAnswer

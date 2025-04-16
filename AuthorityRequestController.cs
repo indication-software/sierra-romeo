@@ -35,7 +35,7 @@ namespace Sierra_Romeo
         private static readonly HttpClient client = new HttpClient(tracer);
         private static readonly Uri submitEndpoint = new Uri(System.Configuration.ConfigurationManager.AppSettings["pbsEndpoint"] + "/assess/submit");
         private static readonly Uri updateEndpoint = new Uri(System.Configuration.ConfigurationManager.AppSettings["pbsEndpoint"] + "/assess/submit");
-        private static readonly Uri questionsEndpointBase = new Uri(System.Configuration.ConfigurationManager.AppSettings["pbsEndpoint"] + "/restrictionQuestion/");
+        private static readonly Uri questionsEndpointBase = new Uri(System.Configuration.ConfigurationManager.AppSettings["pbsEndpoint"] + "/question/");
         private static readonly JsonSerializerOptions serializeOptions = new JsonSerializerOptions
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
@@ -160,7 +160,7 @@ You can report this message to info@sierraromeo.com.au.";
 
         public async Task<RestrictionQuestionDetail[]> GetRestrictionQuestions(AuthorityRequest authRequest, CancellationToken cancellationToken)
         {
-            Uri url = new Uri(questionsEndpointBase, $"{authRequest.PrescriberID}/{authRequest.ItemDetails.Code}/{authRequest.RestrictionQuestionDetails.ItemCode}");
+            Uri url = new Uri(questionsEndpointBase, $"{authRequest.PrescriberID}/{authRequest.ItemDetails.ItemCode}/{authRequest.RestrictionQuestionDetails.RestrictionCode}");
 
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, url);
             httpRequestMessage.Headers.Host = url.Host;
@@ -173,7 +173,7 @@ You can report this message to info@sierraromeo.com.au.";
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            return responseObj.RestrictionQuestionDetails;
+            return responseObj.RestrictionQuestionDetails.RestrictionQuestion;
 
         }
 

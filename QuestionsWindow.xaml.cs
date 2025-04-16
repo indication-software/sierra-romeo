@@ -42,12 +42,12 @@ namespace Sierra_Romeo
                 };
                 if (q.RestrictionAnswerType == "LIST")
                 {
-                    a.RestrictionQuestionAnswerListCode = q.RestrictionAnswerList.RestrictionAnswerListCode;
-                    a.RestrictionAnswerId = int.Parse(q.AnswerOption.RestrictionAnswerId);
+                    a.RestrictionAnswerListCode = q.RestrictionAnswerList.RestrictionAnswerListCode;
+                    a.RestrictionAnswerID = q.AnswerOption.RestrictionAnswerID.ToString();
                 }
                 else
                 {
-                    a.RestrictionQuestionAnswerText = q.AnswerText;
+                    a.RestrictionQuestionAnswer = q.AnswerText;
                 }
 
                 RestrictionAnswers.Add(a);
