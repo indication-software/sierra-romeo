@@ -25,7 +25,7 @@ namespace Sierra_Romeo
         public string AMTCode { get; set; }
         public string Drug { get; set; }
         public string Program { get; set; }
-        [JsonPropertyName("treatment_code")]
+        [JsonPropertyName("restriction_code")]
         public string Restriction { get; set; }
         [JsonPropertyName("restriction_text")]
         public string RestrictionText { get; set; }
