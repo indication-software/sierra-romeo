@@ -22,6 +22,7 @@ using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 
 namespace Sierra_Romeo
 {
@@ -171,7 +172,7 @@ You can report this message to info@sierraromeo.com.au.";
             }
         }
 
-        public async Task<RestrictionQuestionDetail[]> GetRestrictionQuestions(AuthorityRequest authRequest, CancellationToken cancellationToken)
+        public async Task<CompositeCollection> GetRestrictionQuestions(AuthorityRequest authRequest, CancellationToken cancellationToken)
         {
             string responseString;
             Uri url = new Uri(questionsEndpointBase, $"{authRequest.PrescriberID}/{authRequest.ItemDetails.ItemCode}/{authRequest.RestrictionQuestionDetails.RestrictionCode}");
@@ -210,8 +211,19 @@ You can report this message to info@sierraromeo.com.au.";
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            return responseObj.RestrictionQuestionDetails.RestrictionQuestion;
+            CompositeCollection collection = new CompositeCollection();
 
+            if (responseObj.RestrictionQuestionDetails == null)
+            {
+                return null;
+            }
+
+            foreach (var q in responseObj.RestrictionQuestionDetails.RestrictionQuestion)
+            {
+                collection.Add(q);
+            }
+
+            return collection;
         }
 
         public HttpRequestMessage PrepareRequest(string PrescriberId, Uri url, HttpMethod method, string json)

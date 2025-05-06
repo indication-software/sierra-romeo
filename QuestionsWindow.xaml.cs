@@ -13,6 +13,7 @@
 
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Data;
 
 namespace Sierra_Romeo
 {
@@ -21,9 +22,9 @@ namespace Sierra_Romeo
     /// </summary>
     public partial class QuestionsWindow : Window
     {
-        public RestrictionQuestionDetail[] RestrictionQuestions { get; set; }
+        public CompositeCollection RestrictionQuestions { get; set; }
         public List<AuthorityAnswer> RestrictionAnswers { get; set; }
-        public QuestionsWindow(RestrictionQuestionDetail[] RestrictionQuestions)
+        public QuestionsWindow(CompositeCollection RestrictionQuestions)
         {
             // Setting the property from the caller means the data is not available
             // when the components are initalised, so do it in the constructor instead
@@ -34,7 +35,7 @@ namespace Sierra_Romeo
         private void OK_Click(object sender, RoutedEventArgs e)
         {
             RestrictionAnswers = new List<AuthorityAnswer>();
-            foreach (var q in RestrictionQuestions)
+            foreach (RestrictionQuestionDetail q in RestrictionQuestions)
             {
                 var a = new AuthorityAnswer
                 {

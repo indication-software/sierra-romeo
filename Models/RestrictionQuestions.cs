@@ -22,7 +22,6 @@ namespace Sierra_Romeo
         public string ItemCode { get; set; }
         public string RestrictionCode { get; set; }
         public RestrictionQuestionWrapper RestrictionQuestionDetails { get; set; }
-        public DynamicQandADetail[] DynamicQandADetails { get; set; }
         public StatusMessage[] StatusMessages { get; set; }
         [JsonExtensionData]
         public Dictionary<string, object> ExtensionData { get; set; }
