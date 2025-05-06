@@ -138,16 +138,6 @@ namespace Sierra_Romeo
 
         public AuthorityDQAnswer[] DynamicQuestAnswerValue { get; set; }
 
-        [JsonIgnore]
-        public DateTime PrescribingDate { get; set; } = DateTime.Now;
-        [JsonPropertyName("dateOfPrescribing")]
-        public string strPrescribingDate { get => PrescribingDate.ToString("yyyy-MM-dd"); }
-
-        [JsonIgnore]
-        public DateTime LodgementDate { get; set; } = DateTime.Now;
-        [JsonPropertyName("dateOfLodgement")]
-        public string strLodgementDate { get => LodgementDate.ToString("yyyy-MM-dd"); }
-
         // Only used for updates
         public string OverrideCode { get; set; }
 
