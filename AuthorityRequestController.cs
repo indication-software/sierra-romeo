@@ -194,7 +194,19 @@ You can report this message to info@sierraromeo.com.au.";
                 return null;
             }
 
-            var responseObj = JsonSerializer.Deserialize<RestrictionQuestionsResponse>(responseString, serializeOptions);
+            RestrictionQuestionsResponse responseObj;
+
+            try
+            {
+                responseObj = JsonSerializer.Deserialize<RestrictionQuestionsResponse>(responseString, serializeOptions);
+            }
+            catch (JsonException e)
+            {
+                // XXX
+                MessageBox.Show("An error occurred while decoding restriction questions: " + e.Message + " Your authority request may not be successful. Try selecting the item again.", "Sierra Romeo: Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                return null;
+            }
 
             cancellationToken.ThrowIfCancellationRequested();
 
