@@ -22,6 +22,7 @@ namespace Sierra_Romeo
         public string ItemCode { get; set; }
         public string RestrictionCode { get; set; }
         public RestrictionQuestionWrapper RestrictionQuestionDetails { get; set; }
+        public DynamicQandADetail DynamicQuestions { get; set; }
         public StatusMessage[] StatusMessages { get; set; }
         [JsonExtensionData]
         public Dictionary<string, object> ExtensionData { get; set; }
@@ -71,8 +72,194 @@ namespace Sierra_Romeo
         public string RestrictionAnswerText { get; set; }
     }
 
+
     public class DynamicQandADetail
     {
+        public Row[] Rows { get; set; }
+        [JsonExtensionData]
+        public Dictionary<string, object> ExtensionData { get; set; }
+    }
 
+    public class Row
+    {
+        public int DisplayOrder { get; set; }
+        public string ActivationTypeCode { get; set; }
+        public string ActivationRefId { get; set; }
+        public string ActivationMappingType { get; set; }
+        public Column[] Columns { get; set; }
+        [JsonExtensionData]
+        public Dictionary<string, object> ExtensionData { get; set; }
+    }
+
+    public class Column
+    {
+        public string QuestId { get; set; }
+        public string QuestType { get; set; }
+        public string QuestText { get; set; }
+        public string QuestGroup { get; set; }
+        public int DisplayOrder { get; set; }
+        public string HtmlPostText { get; set; }
+        public string HtmlHintText { get; set; }
+        public string AnsDataType { get; set; }
+        public int AnsMaxLength { get; set; }
+        public string AnsDecFormat { get; set; }
+        public AnsOption[] AnsOptions { get; set; }
+        [JsonExtensionData]
+        public Dictionary<string, object> ExtensionData { get; set; }
+    }
+
+    public class AnsOption
+    {
+        public string OptText { get; set; }
+        public string OptValue { get; set; }
+        public int DisplayOrder { get; set; }
+        [JsonExtensionData]
+        public Dictionary<string, object> ExtensionData { get; set; }
+    }
+
+    public class DQMSRestrictionQuestion
+    {
+        public int DisplayOrder { get; set; }
+        public string ActivationTypeCode { get; set; }
+        public string ActivationRefId { get; set; }
+        public string ActivationMappingType { get; set; }
+        public Column[] Columns { get; set; }
+    }
+
+    //public class DynamicQuestAnswerValue
+    //{
+    //    public string QuestId { get; set; }
+    //    public string QuestGroup { get; set; }
+    //    public string AnsDataType { get; set; }
+    //    public string AnsString { get; set; }
+    //    public double? AnsNumber { get; set; }
+    //    public DateTime AnsDate { get; set; }
+    //    public bool? AnsBool { get; set; }
+    //    public decimal AnsDecimal { get; set; }
+    //}
+
+    public abstract class DQMSRestrictionQuestionBase
+    {
+        public string QuestionId { get; set; }
+        public string QuestionText { get; set; }
+        public string QuestionGroup { get; set; }
+        public string Hint { get; set; }
+        public abstract List<AuthorityDQAnswer> GetQuestAnswerValues();
+    }
+
+    public class DQMSRadioOption
+    {
+        public string Value { get; set; }
+        public string QuestionText { get; set; }
+        public string QuestionGroup { get; set; }
+    }
+
+    public class DQMSRadioGroup : DQMSRestrictionQuestionBase
+    {
+        public string Value { get; set; }
+
+        public DQMSRadioOption[] Options { get; set; }
+
+        public override List<AuthorityDQAnswer> GetQuestAnswerValues()
+        {
+            return new List<AuthorityDQAnswer> { new AuthorityDQAnswer
+                {
+                    Id = QuestionId,
+                    Group = QuestionGroup,
+                    AnswerDataType = "TEXT",
+                    AnswerString = Value,
+                }
+            };
+        }
+    }
+
+    public class DQMSCheckbox : DQMSRestrictionQuestionBase
+    {
+        public bool Value { get; set; }
+
+        public override List<AuthorityDQAnswer> GetQuestAnswerValues()
+        {
+            return new List<AuthorityDQAnswer> { new AuthorityDQAnswer
+                {
+                    Id = QuestionId,
+                    Group = QuestionGroup,
+                    AnswerDataType= "IND",
+                    AnswerString = Value? "Y": "N",
+                }
+            };
+        }
+    }
+
+    public class DQMSCheckboxList : DQMSRestrictionQuestionBase
+    {
+        public DQMSCheckbox[] Questions { get; set; }
+        public override List<AuthorityDQAnswer> GetQuestAnswerValues()
+        {
+            var ans = new List<AuthorityDQAnswer>();
+            foreach (var q in Questions)
+            {
+                ans.AddRange(q.GetQuestAnswerValues());
+            }
+            return ans;
+        }
+    }
+
+    public class DQMSIndicator : DQMSRestrictionQuestionBase
+    {
+        public string Value { get; set; }
+
+        public override List<AuthorityDQAnswer> GetQuestAnswerValues()
+        {
+            return new List<AuthorityDQAnswer> { new AuthorityDQAnswer
+                {
+                    Id = QuestionId,
+                    Group = QuestionGroup,
+                    AnswerDataType= "IND",
+                    AnswerString = Value?.ToString()
+                }
+            };
+        }
+    }
+
+    public class DQMSText : DQMSRestrictionQuestionBase
+    {
+        public string Value { get; set; }
+
+        public override List<AuthorityDQAnswer> GetQuestAnswerValues()
+        {
+            return new List<AuthorityDQAnswer> { new AuthorityDQAnswer
+                {
+                    Id = QuestionId,
+                    Group = QuestionGroup,
+                    AnswerDataType = "TEXT",
+                    AnswerString = Value,
+                }
+            };
+        }
+    }
+
+    public class DQMSMultiLine : DQMSRestrictionQuestionBase
+    {
+        public string Value { get; set; }
+
+        public override List<AuthorityDQAnswer> GetQuestAnswerValues()
+        {
+            return new List<AuthorityDQAnswer> { new AuthorityDQAnswer
+                {
+                    Id = QuestionId,
+                    Group = QuestionGroup,
+                    AnswerDataType = "MULTLN",
+                    AnswerString = Value,
+                }
+            };
+        }
+    }
+
+    public class DQMSHeader : DQMSRestrictionQuestionBase
+    {
+        public override List<AuthorityDQAnswer> GetQuestAnswerValues()
+        {
+            return null;
+        }
     }
 }

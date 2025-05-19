@@ -174,7 +174,22 @@ namespace Sierra_Romeo
 
                             if (questionsRet.HasValue && questionsRet.Value)
                             {
-                                currentRequest.RestrictionQuestionDetails.RestrictionQuestion = QuestionsWindow.RestrictionAnswers.ToArray();
+                                if (QuestionsWindow.DQMSRestrictionAnswers.Count > 0)
+                                {
+                                    currentRequest.DynamicQuestAnswerValue = QuestionsWindow.DQMSRestrictionAnswers.ToArray();
+                                }
+                                else
+                                {
+                                    currentRequest.DynamicQuestAnswerValue = null;
+                                }
+                                if (QuestionsWindow.RestrictionAnswers.Count > 0)
+                                {
+                                    currentRequest.RestrictionQuestionDetails.RestrictionQuestion = QuestionsWindow.RestrictionAnswers.ToArray();
+                                }
+                                else
+                                {
+                                    currentRequest.RestrictionQuestionDetails.RestrictionQuestion = null;
+                                }
                             }
                         }
                     }

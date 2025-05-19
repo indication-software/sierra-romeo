@@ -31,27 +31,60 @@
         <DataTemplate x:Key="ListTemplate" DataType="{x:Type local:RestrictionQuestionDetail}">
             <StackPanel Margin="5" Orientation="Horizontal">
                 <Label Content="{Binding Path=RestrictionQuestionText}" />
-                <ComboBox MinWidth="130" IsReadOnly="True"
-                          ItemsSource="{Binding Path=RestrictionAnswerList.RestrictionAnswer}"
-                          DisplayMemberPath="RestrictionAnswerText"
-                          SelectedItem="{Binding Path=AnswerOption}"
-                          />
+                <ComboBox MinWidth="130" IsReadOnly="True" ItemsSource="{Binding Path=RestrictionAnswerList.RestrictionAnswer}" DisplayMemberPath="RestrictionAnswerText" SelectedItem="{Binding Path=AnswerOption}" />
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type local:RestrictionQuestionDetail}">
+            <ContentControl x:Name="itemContent" Content="{Binding}" ContentTemplate="{StaticResource TextTemplate}" />
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding Path=RestrictionAnswerType}" Value="LIST">
+                    <Setter TargetName="itemContent" Property="ContentTemplate" Value="{StaticResource ListTemplate}" />
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type local:DQMSIndicator}">
+            <StackPanel Margin="5" Orientation="Horizontal">
+                <Label Padding="0 5 0 0" Content="{Binding Path=QuestionText}" />
+                <ListBox Margin="20 0 5 0" MinWidth="130" SelectedValuePath="Name" SelectedValue="{Binding Path=Value,Mode=OneWayToSource}">
+                    <ListBoxItem x:Name="Y">Yes</ListBoxItem>
+                    <ListBoxItem x:Name="N">No</ListBoxItem>
+                </ListBox>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type local:DQMSCheckboxList}">
+            <StackPanel Margin="5" Orientation="Horizontal">
+                <Label Padding="0 5 0 0" Content="{Binding Path=QuestionText}" />
+                <StackPanel Margin="20 0 5 0" Orientation="Vertical">
+                    <ItemsControl ItemsSource="{Binding Path=Questions}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="{x:Type local:DQMSCheckbox}">
+                                <CheckBox Content="{Binding Path=QuestionText}" IsChecked="{Binding Path=Value}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type local:DQMSRadioGroup}">
+            <StackPanel Margin="5" Orientation="Horizontal">
+                <Label Padding="0 5 0 0" Content="{Binding Path=QuestionText}" />
+                <ListBox Margin="20 0 5 0" MinWidth="130" ItemsSource="{Binding Path=Options}" DisplayMemberPath="QuestionText" SelectedValuePath="Value" SelectedValue="{Binding Path=Value}" />
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type local:DQMSMultiLine}">
+            <StackPanel Margin="5" Orientation="Horizontal">
+                <Label Padding="0 5 0 0" Content="{Binding Path=QuestionText}" />
+                <TextBox Margin="20 0 5 0" MinWidth="260" MaxWidth="700" Text="{Binding Path=Value}" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" MinLines="2" />
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type local:DQMSHeader}">
+            <StackPanel Margin="5" Orientation="Horizontal">
+                <Label Padding="0 5 0 0" Content="{Binding Path=QuestionText}" />
             </StackPanel>
         </DataTemplate>
     </Window.Resources>
-    <StackPanel Orientation="Vertical" Margin="5">
-        <ItemsControl ItemsSource="{Binding RestrictionQuestions}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <ContentControl x:Name="itemContent" Content="{Binding}" ContentTemplate="{StaticResource TextTemplate}" />
-                    <DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding Path=RestrictionAnswerType}" Value="LIST">
-                            <Setter TargetName="itemContent" Property="ContentTemplate" Value="{StaticResource ListTemplate}" />
-                        </DataTrigger>
-                    </DataTemplate.Triggers>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+    <StackPanel Orientation="Vertical" Margin="5" CanVerticallyScroll="True">
+        <ItemsControl ItemsSource="{Binding RestrictionQuestions}" />
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Content="OK" Margin="10" Padding="10,10" Click="OK_Click" />
             <Button Content="Cancel" Margin="10" Padding="10,10" IsCancel="True" />

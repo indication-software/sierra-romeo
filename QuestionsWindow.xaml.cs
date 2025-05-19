@@ -23,6 +23,7 @@ namespace Sierra_Romeo
     public partial class QuestionsWindow : Window
     {
         public CompositeCollection RestrictionQuestions { get; set; }
+        public List<AuthorityDQAnswer> DQMSRestrictionAnswers { get; set; }
         public List<AuthorityAnswer> RestrictionAnswers { get; set; }
         public QuestionsWindow(CompositeCollection RestrictionQuestions)
         {
@@ -35,23 +36,33 @@ namespace Sierra_Romeo
         private void OK_Click(object sender, RoutedEventArgs e)
         {
             RestrictionAnswers = new List<AuthorityAnswer>();
-            foreach (RestrictionQuestionDetail q in RestrictionQuestions)
+            DQMSRestrictionAnswers = new List<AuthorityDQAnswer>();
+            foreach (var q in RestrictionQuestions)
             {
-                var a = new AuthorityAnswer
+                if (q is RestrictionQuestionDetail qamsq)
                 {
-                    RestrictionQuestionCode = q.RestrictionQuestionCode
-                };
-                if (q.RestrictionAnswerType == "LIST")
-                {
-                    a.RestrictionAnswerListCode = q.RestrictionAnswerList.RestrictionAnswerListCode;
-                    a.RestrictionAnswerID = q.AnswerOption.RestrictionAnswerID.ToString();
+                    var a = new AuthorityAnswer
+                    {
+                        RestrictionQuestionCode = qamsq.RestrictionQuestionCode
+                    };
+                    if (qamsq.RestrictionAnswerType == "LIST")
+                    {
+                        a.RestrictionAnswerListCode = qamsq.RestrictionAnswerList.RestrictionAnswerListCode;
+                        a.RestrictionAnswerID = qamsq.AnswerOption.RestrictionAnswerID.ToString();
+                    }
+                    else
+                    {
+                        a.RestrictionQuestionAnswer = qamsq.AnswerText;
+                    }
+                    /// XXX should enforce answers here from restrictionQuestionMandatory
+                    RestrictionAnswers.Add(a);
                 }
                 else
                 {
-                    a.RestrictionQuestionAnswer = q.AnswerText;
+                    DQMSRestrictionQuestionBase dqmsq = q as DQMSRestrictionQuestionBase;
+                    DQMSRestrictionAnswers.AddRange(dqmsq.GetQuestAnswerValues());
+                    /// XXX it is theoretically possible to validate the form answers here, although complex
                 }
-
-                RestrictionAnswers.Add(a);
             }
             DialogResult = true;
         }

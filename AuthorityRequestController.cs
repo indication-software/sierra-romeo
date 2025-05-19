@@ -213,17 +213,134 @@ You can report this message to info@sierraromeo.com.au.";
 
             CompositeCollection collection = new CompositeCollection();
 
-            if (responseObj.RestrictionQuestionDetails == null)
+            if (responseObj.RestrictionQuestionDetails != null)
+            {
+                foreach (var q in responseObj.RestrictionQuestionDetails.RestrictionQuestion)
+                {
+                    collection.Add(q);
+                }
+            }
+            else if (responseObj.DynamicQuestions != null)
+            {
+                try
+                {
+                    foreach (var row in responseObj.DynamicQuestions.Rows)
+                    {
+                        collection.Add(TransformDQMSRow(row));
+                    }
+                }
+                catch (NotImplementedException)
+                {
+                    MessageBox.Show("An error occurred while decoding DQMS questions for item " + $"{authRequest.ItemDetails.ItemCode}/{authRequest.RestrictionQuestionDetails.RestrictionCode}." +
+                                    "\n\nYour authority request may not be successful. Please report this error to info@sierraromeo.com.au " +
+                                    "(push Ctrl-C now to copy this message).", "Sierra Romeo: Error",
+                                    MessageBoxButton.OK, MessageBoxImage.Error);
+                    return null;
+                }
+            }
+            else
             {
                 return null;
             }
 
-            foreach (var q in responseObj.RestrictionQuestionDetails.RestrictionQuestion)
+            return collection;
+        }
+
+        private DQMSRestrictionQuestionBase TransformDQMSRow(Row row)
+        {
+            /// The DQMS data model is not as straightforward as QAMS. In particular, the nature of the
+            /// UI element needs to be derived from the question type, the number of grouped answers,
+            /// and the data type of the answer
+            if (row.Columns.Length > 1)
             {
-                collection.Add(q);
+                // A row with multiple columns is a group of checkboxes.
+                var header = row.Columns[0];
+                var q = new DQMSCheckboxList
+                {
+                    QuestionText = header.QuestText,
+                    QuestionId = header.QuestId,
+                    QuestionGroup = header.QuestGroup,
+                    Questions = new DQMSCheckbox[row.Columns.Length - 1]
+                };
+                for (var i = 1; i < row.Columns.Length; i++)
+                {
+                    var this_q = row.Columns[i];
+                    if (this_q.QuestType != "CHKBOX")
+                    {
+                        throw new NotImplementedException();
+                    }
+                    q.Questions[i - 1] = new DQMSCheckbox
+                    {
+                        QuestionText = this_q.QuestText,
+                        QuestionId = this_q.QuestId,
+                        QuestionGroup = this_q.QuestGroup,
+                        Hint = this_q.HtmlHintText
+                    };
+                }
+                return q;
             }
 
-            return collection;
+            var col = row.Columns[0];
+
+            if (col.QuestType == "HEADER")
+            {
+                var q = new DQMSHeader
+                {
+                    QuestionText = col.QuestText,
+                    QuestionId = col.QuestId,
+                    QuestionGroup = col.QuestGroup,
+                    Hint = col.HtmlHintText
+                };
+            }
+
+            if (col.QuestType == "INPUT" && col.AnsDataType == "IND")
+            {
+                // Answer data types are not documented, but these appear to be "indicators": yes/no questions
+                var q = new DQMSIndicator
+                {
+                    QuestionText = col.QuestText,
+                    QuestionId = col.QuestId,
+                    QuestionGroup = col.QuestGroup,
+                    Hint = col.HtmlHintText
+                };
+                return q;
+            }
+
+            if (col.QuestType == "INPUT" && col.AnsDataType == "MULTLN")
+            {
+                var q = new DQMSMultiLine
+                {
+                    QuestionText = col.QuestText,
+                    QuestionId = col.QuestId,
+                    QuestionGroup = col.QuestGroup,
+                    Hint = col.HtmlHintText
+                };
+                return q;
+            }
+
+            if (col.QuestType == "RADGRP")
+            {
+                var q = new DQMSRadioGroup
+                {
+                    QuestionText = col.QuestText,
+                    QuestionId = col.QuestId,
+                    QuestionGroup = col.QuestGroup,
+                    Hint = col.HtmlHintText,
+                    Options = new DQMSRadioOption[col.AnsOptions.Length]
+                };
+                for (int i = 0; i < col.AnsOptions.Length; i++)
+                {
+                    q.Options[i] = new DQMSRadioOption
+                    {
+                        QuestionText = col.AnsOptions[i].OptText,
+                        Value = col.AnsOptions[i].OptValue,
+                        QuestionGroup = col.QuestGroup,
+                    };
+                }
+                return q;
+            }
+
+            throw new NotImplementedException();
         }
 
         public HttpRequestMessage PrepareRequest(string PrescriberId, Uri url, HttpMethod method, string json)
