@@ -30,7 +30,7 @@
     <StackPanel Orientation="Vertical" Margin="15">
         <GroupBox Header="Prescriber">
             <StackPanel Orientation="Horizontal">
-                <Label Content="_Prescriber number" Target="{Binding ElementName=prescriberNumberInput}" VerticalAlignment="Center" />
+                <Label Content="_Prescriber number" Target="{Binding ElementName=prescriberNumberInput}" VerticalAlignment="Center" Margin="0,0,10,0" />
                 <TextBox x:Name="prescriberNumberInput" Margin="5,10" MinWidth="70" IsEnabled="{Binding Editable}" MaxLength="7" MaxLines="1">
                     <TextBox.Text>
                         <Binding Path="PrescriberID" NotifyOnValidationError="True">
@@ -46,13 +46,13 @@
         <GroupBox Header="Patient">
             <StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Label VerticalAlignment="Center" Content="_First name" Target="{Binding ElementName=firstNameInput}" />
+                    <Label VerticalAlignment="Center" Content="_First name" Target="{Binding ElementName=firstNameInput}" Margin="0,0,10,0" />
                     <TextBox x:Name="firstNameInput" Margin="5,10" MinWidth="130" Text="{Binding PatientDetails.PatientFirstName}" IsEnabled="{Binding Editable}" MaxLines="1" MaxLength="40" />
-                    <Label VerticalAlignment="Center" Content="_Surname" Target="{Binding ElementName=lastNameInput}" />
+                    <Label VerticalAlignment="Center" Content="_Surname" Target="{Binding ElementName=lastNameInput}" Margin="10,0,10,0" />
                     <TextBox x:Name="lastNameInput" Margin="5,10" MinWidth="130" Text="{Binding Path=PatientDetails.PatientSurname}" IsEnabled="{Binding Editable}" MaxLines="1" MaxLength="40"></TextBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Label Content="_Medicare card number" Target="{Binding ElementName=medicareCardInput}" VerticalAlignment="Center" />
+                    <Label Content="_Medicare card number" Target="{Binding ElementName=medicareCardInput}" VerticalAlignment="Center" Margin="0,0,8,0" />
                     <TextBox x:Name="medicareCardInput" Margin="5,10" MinWidth="140" HorizontalAlignment="Stretch" IsEnabled="{Binding Editable}" MaxLength="11" MaxLines="1">
                         <TextBox.Text>
                             <Binding Path="PatientDetails.MedicareNumber" NotifyOnValidationError="True">
@@ -70,7 +70,7 @@
         <GroupBox Header="Prescription">
             <StackPanel Orientation="Vertical">
                 <StackPanel Orientation="Horizontal">
-                    <Label Content="Authority prescription _number" VerticalAlignment="Center" Target="{Binding ElementName=scriptNumberInput}" />
+                    <Label Content="Authority prescription _number" VerticalAlignment="Center" Target="{Binding ElementName=scriptNumberInput}" Margin="0,0,7,0" />
                     <TextBox x:Name="scriptNumberInput" Margin="5,10" MinWidth="70" IsEnabled="{Binding Editable}" MaxLength="8" MaxLines="1">
                         <TextBox.Text>
                             <Binding Path="ScriptNumber" NotifyOnValidationError="True">
@@ -84,12 +84,12 @@
                     </TextBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Label Content="Drug" VerticalAlignment="Center" />
+                    <Label Content="Drug" VerticalAlignment="Center" Margin="0,0,10,0" />
                     <Button Content="Select _drug..." Click="DrugSearch_Click" Margin="10" IsEnabled="{Binding Editable}" />
                     <TextBlock x:Name="selectDrug" Text="{Binding Drug}" TextTrimming="WordEllipsis" VerticalAlignment="Center" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Label Content="Item" VerticalAlignment="Center" />
+                    <Label Content="Item" VerticalAlignment="Center" Margin="0,0,10,0" />
                     <Button Content="Select PBS _item..." Click="ItemSearch_Click" Margin="10" IsEnabled="{Binding Editable}" />
                     <StackPanel VerticalAlignment="Center" MaxWidth="400">
                         <TextBlock Text="{Binding ItemDetails.Item.ItemCode}" VerticalAlignment="Center" />
@@ -107,7 +107,7 @@
                             </Binding>
                         </TextBox.Text>
                     </TextBox>
-                    <Label Content="Prescribed _quantity" VerticalAlignment="Center" Target="{Binding ElementName=quantityInput}" />
+                    <Label Content="Prescribed _quantity" VerticalAlignment="Center" Target="{Binding ElementName=quantityInput}" Margin="10,0,10,0" />
                     <TextBox x:Name="quantityInput" Margin="5,10" MinWidth="40" IsEnabled="{Binding Editable}" MaxLength="6" MaxLines="1">
                         <TextBox.Text>
                             <Binding Path="ItemDetails.Quantity" NotifyOnValidationError="True">
@@ -118,7 +118,7 @@
                             </Binding>
                         </TextBox.Text>
                     </TextBox>
-                    <Label Content="_Repeats" VerticalAlignment="Center" Target="{Binding ElementName=repeatsInput}" />
+                    <Label Content="_Repeats" VerticalAlignment="Center" Target="{Binding ElementName=repeatsInput}" Margin="10,0,10,0" />
                     <TextBox x:Name="repeatsInput" Margin="5,10" MinWidth="40" IsEnabled="{Binding Editable}" MaxLength="2" MaxLines="1">
                         <TextBox.Text>
                             <Binding Path="ItemDetails.NumberOfRepeats" NotifyOnValidationError="True">

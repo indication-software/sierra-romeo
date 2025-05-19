@@ -54,7 +54,7 @@
         </ItemsControl>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Content="OK" Margin="10" Padding="10,10" Click="OK_Click" />
-            <Button Content="Cancel" Margin="10" IsCancel="True" />
+            <Button Content="Cancel" Margin="10" Padding="10,10" IsCancel="True" />
         </StackPanel>
     </StackPanel>
 </Window>
