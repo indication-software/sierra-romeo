@@ -10,17 +10,7 @@
  * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
  * the GNU General Public License for more details.
 -->
-<Window x:Class="Sierra_Romeo.QuestionsWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Sierra_Romeo"
-        mc:Ignorable="d"
-        Title="Restriction Questions" SizeToContent="WidthAndHeight"
-        DataContext="{Binding RelativeSource={RelativeSource Self}}"
-        xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
-        ui:WindowHelper.UseModernWindowStyle="True">
+<Window x:Class="Sierra_Romeo.QuestionsWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:Sierra_Romeo" mc:Ignorable="d" Title="Restriction Questions" SizeToContent="WidthAndHeight" DataContext="{Binding RelativeSource={RelativeSource Self}}" xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern" ui:WindowHelper.UseModernWindowStyle="True">
     <Window.Resources>
         <DataTemplate x:Key="TextTemplate" DataType="{x:Type local:RestrictionQuestionDetail}">
             <StackPanel Margin="5" Orientation="Horizontal">
