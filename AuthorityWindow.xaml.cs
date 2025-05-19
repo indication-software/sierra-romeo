@@ -59,6 +59,7 @@ namespace Sierra_Romeo
                     currentRequest.ItemDetails.Quantity = imported.Quantity;
                     currentRequest.ItemDetails.NumberOfRepeats = imported.Repeats;
                     currentRequest.ItemDetails.Dose = imported.Dose;
+                    currentRequest.ItemDetails.DoseFrequency = imported.DoseFrequency;
 
                     if (imported.SearchTerm != null && imported.SearchTerm != "")
                     {
@@ -66,6 +67,11 @@ namespace Sierra_Romeo
                     }
                 }
 
+            }
+
+            if (currentRequest.ItemDetails.DoseFrequency == null)
+            {
+                currentRequest.ItemDetails.DoseFrequency = 1;
             }
 
             DataContext = currentRequest;

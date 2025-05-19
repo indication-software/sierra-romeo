@@ -97,16 +97,24 @@
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Label Content="Daily quantit_y" VerticalAlignment="Center" Target="{Binding ElementName=doseInput}" />
+                    <Label Content="Dose" VerticalAlignment="Center" Target="{Binding ElementName=doseInput}" Margin="0,0,10,0" />
                     <TextBox x:Name="doseInput" Margin="5,10" MinWidth="40" IsEnabled="{Binding Editable}" MaxLength="3" MaxLines="1">
                         <TextBox.Text>
                             <Binding Path="ItemDetails.Dose" NotifyOnValidationError="True">
                                 <Binding.ValidationRules>
-                                    <local:MustExistValidation PropertyName="Daily quantity" />
+                                    <local:MustExistValidation PropertyName="Dose" />
                                 </Binding.ValidationRules>
                             </Binding>
                         </TextBox.Text>
                     </TextBox>
+                    <Label Content="Dose frequenc_y" VerticalAlignment="Center" Target="{Binding ElementName=doseFrequencyInput}" Margin="5,10" />
+                    <ComboBox x:Name="doseFrequencyInput" IsEnabled="{Binding Editable}" Margin="5,10" MinWidth="130" SelectedValuePath="Tag" SelectedValue="{Binding Path=ItemDetails.DoseFrequency}">
+                        <ComboBoxItem Tag="0">As required</ComboBoxItem>
+                        <ComboBoxItem Tag="1">Daily</ComboBoxItem>
+                        <ComboBoxItem Tag="7">Weekly</ComboBoxItem>
+                        <ComboBoxItem Tag="14">Fortnightly</ComboBoxItem>
+                        <ComboBoxItem Tag="30">Monthly</ComboBoxItem>
+                    </ComboBox>
                     <Label Content="Prescribed _quantity" VerticalAlignment="Center" Target="{Binding ElementName=quantityInput}" Margin="10,0,10,0" />
                     <TextBox x:Name="quantityInput" Margin="5,10" MinWidth="40" IsEnabled="{Binding Editable}" MaxLength="6" MaxLines="1">
                         <TextBox.Text>
