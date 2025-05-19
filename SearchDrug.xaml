@@ -46,7 +46,7 @@
                     <Style TargetType="{x:Type Button}">
                         <Setter Property="IsDefault" Value="False" />
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsFocused, ElementName=QueryInput}" Value="False">
+                            <DataTrigger Binding="{Binding IsFocused, ElementName=queryInput}" Value="False">
                                 <Setter Property="IsDefault" Value="True" />
                             </DataTrigger>
                         </Style.Triggers>
