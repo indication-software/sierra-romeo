@@ -14,14 +14,14 @@
     <Window.Resources>
         <DataTemplate x:Key="TextTemplate" DataType="{x:Type local:RestrictionQuestionDetail}">
             <StackPanel Margin="5" Orientation="Horizontal">
-                <Label Content="{Binding Path=RestrictionQuestionText}" />
-                <TextBox MinWidth="130" Text="{Binding Path=AnswerText}" />
+                <Label Padding="0 5 0 0" Content="{Binding Path=RestrictionQuestionText}" />
+                <TextBox Margin="10 0 5 0" MinWidth="130" Text="{Binding Path=AnswerText}" />
             </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="ListTemplate" DataType="{x:Type local:RestrictionQuestionDetail}">
             <StackPanel Margin="5" Orientation="Horizontal">
-                <Label Content="{Binding Path=RestrictionQuestionText}" />
-                <ComboBox MinWidth="130" IsReadOnly="True" ItemsSource="{Binding Path=RestrictionAnswerList.RestrictionAnswer}" DisplayMemberPath="RestrictionAnswerText" SelectedItem="{Binding Path=AnswerOption}" />
+                <Label Padding="0 5 0 0" Content="{Binding Path=RestrictionQuestionText}" />
+                <ComboBox Margin="10 0 5 0" MinWidth="130" IsReadOnly="True" ItemsSource="{Binding Path=RestrictionAnswerList.RestrictionAnswer}" DisplayMemberPath="RestrictionAnswerText" SelectedItem="{Binding Path=AnswerOption}" />
             </StackPanel>
         </DataTemplate>
         <DataTemplate DataType="{x:Type local:RestrictionQuestionDetail}">
@@ -34,8 +34,8 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type local:DQMSIndicator}">
             <StackPanel Margin="5" Orientation="Horizontal">
-                <Label Padding="0 5 0 0" Content="{Binding Path=QuestionText}" />
-                <ListBox Margin="20 0 5 0" MinWidth="130" SelectedValuePath="Name" SelectedValue="{Binding Path=Value,Mode=OneWayToSource}">
+                <Label Margin="0 5 0 0" Content="{Binding Path=QuestionText}" />
+                <ListBox Margin="10 0 5 0" MinWidth="130" SelectedValuePath="Name" SelectedValue="{Binding Path=Value,Mode=OneWayToSource}">
                     <ListBoxItem x:Name="Y">Yes</ListBoxItem>
                     <ListBoxItem x:Name="N">No</ListBoxItem>
                 </ListBox>
@@ -44,7 +44,7 @@
         <DataTemplate DataType="{x:Type local:DQMSCheckboxList}">
             <StackPanel Margin="5" Orientation="Horizontal">
                 <Label Padding="0 5 0 0" Content="{Binding Path=QuestionText}" />
-                <StackPanel Margin="20 0 5 0" Orientation="Vertical">
+                <StackPanel Margin="10 0 5 0" Orientation="Vertical">
                     <ItemsControl ItemsSource="{Binding Path=Questions}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate DataType="{x:Type local:DQMSCheckbox}">
@@ -58,13 +58,13 @@
         <DataTemplate DataType="{x:Type local:DQMSRadioGroup}">
             <StackPanel Margin="5" Orientation="Horizontal">
                 <Label Padding="0 5 0 0" Content="{Binding Path=QuestionText}" />
-                <ListBox Margin="20 0 5 0" MinWidth="130" ItemsSource="{Binding Path=Options}" DisplayMemberPath="QuestionText" SelectedValuePath="Value" SelectedValue="{Binding Path=Value}" />
+                <ListBox Margin="10 0 5 0" MinWidth="130" ItemsSource="{Binding Path=Options}" DisplayMemberPath="QuestionText" SelectedValuePath="Value" SelectedValue="{Binding Path=Value}" />
             </StackPanel>
         </DataTemplate>
         <DataTemplate DataType="{x:Type local:DQMSMultiLine}">
             <StackPanel Margin="5" Orientation="Horizontal">
                 <Label Padding="0 5 0 0" Content="{Binding Path=QuestionText}" />
-                <TextBox Margin="20 0 5 0" MinWidth="260" MaxWidth="700" Text="{Binding Path=Value}" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" MinLines="2" />
+                <TextBox Margin="10 0 5 0" MinWidth="260" MaxWidth="700" Text="{Binding Path=Value}" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" MinLines="2" />
             </StackPanel>
         </DataTemplate>
         <DataTemplate DataType="{x:Type local:DQMSHeader}">
