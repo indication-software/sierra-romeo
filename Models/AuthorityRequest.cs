@@ -112,7 +112,20 @@ namespace Sierra_Romeo
         [JsonIgnore]
         public DateTime AnswerDateTime { get; set; }
         [JsonPropertyName("ansDate")]
-        public string AnswerDate { get => AnswerDateTime.ToString("yyyy-MM-dd"); }
+        public string AnswerDate
+        {
+            get
+            {
+                if (AnswerDateTime == DateTime.MinValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    return AnswerDateTime.ToString("yyyy-MM-dd"); ;
+                }
+            }
+        }
         [JsonPropertyName("ansDecFormat")]
         public decimal? AnswerDecimal { get; set; }
     }
