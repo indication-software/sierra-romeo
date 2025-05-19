@@ -30,7 +30,7 @@ namespace Sierra_Romeo
         internal LoginController loginController;
         internal AuthorityRequestController requestController;
         private readonly AuthorityRequest currentRequest;
-        private AMTDrug currentDrug = new AMTDrug();
+        public AMTDrug CurrentDrug { get; set; } = new AMTDrug();
         private string lastDrugSearch = "";
         private CancellationTokenSource questionsCancellationToken = null;
         private List<ValidationError> ValidationErrors { get; set; } = new List<ValidationError>();
@@ -114,7 +114,7 @@ namespace Sierra_Romeo
             bool? ret = SearchWindow.ShowDialog();
             if (ret.HasValue && ret.Value)
             {
-                selectDrug.DataContext = currentDrug = SearchWindow.CurrentDrug;
+                selectDrug.DataContext = CurrentDrug = SearchWindow.CurrentDrug;
                 ItemSearch_Click(sender, null);
             }
             lastDrugSearch = SearchWindow.queryInput.Text;
@@ -132,9 +132,9 @@ namespace Sierra_Romeo
                 Owner = this,
                 PrescriberNumber = currentRequest.PrescriberID
             };
-            if (currentDrug != null)
+            if (CurrentDrug != null)
             {
-                SearchWindow.queryInput.Text = currentDrug.AMTCode;
+                SearchWindow.queryInput.Text = CurrentDrug.AMTCode;
             }
 
             bool? searchRet = SearchWindow.ShowDialog();
@@ -146,13 +146,13 @@ namespace Sierra_Romeo
 
                 // Rather than implement INotifyPropertyChanged on AMTDrug,
                 // just build a new one and make it the datacontext for the label
-                currentDrug = new AMTDrug
+                CurrentDrug = new AMTDrug
                 {
                     Drug = SearchWindow.CurrentItem.Drug,
                     Brands = SearchWindow.CurrentItem.Brands,
                     AMTCode = SearchWindow.CurrentItem.AMTCode
                 };
-                selectDrug.DataContext = currentDrug;
+                selectDrug.DataContext = CurrentDrug;
 
                 currentRequest.RestrictionQuestionDetails.RestrictionQuestion = null;
 
