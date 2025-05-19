@@ -28,9 +28,9 @@ namespace Sierra_Romeo
         // public string DrugId { get; set; }
         public string SearchTerm { get; set; }
         public string Dose { get; set; }
-        public int DoseFrequency { get; set; }
-        public int Quantity { get; set; }
-        public int Repeats { get; set; }
+        public int? DoseFrequency { get; set; }
+        public int? Quantity { get; set; }
+        public int? Repeats { get; set; }
         [JsonExtensionData]
         public Dictionary<string, object> ExtensionData { get; set; }
     }

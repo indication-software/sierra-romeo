@@ -56,8 +56,8 @@ namespace Sierra_Romeo
                     currentRequest.PatientDetails.PatientFirstName = imported.FirstName;
                     currentRequest.PatientDetails.PatientSurname = imported.Surname;
                     currentRequest.PatientDetails.MedicareNumber = imported.MedicareNumber;
-                    currentRequest.ItemDetails.Quantity = imported.Quantity;
-                    currentRequest.ItemDetails.NumberOfRepeats = imported.Repeats;
+                    currentRequest.ItemDetails.Quantity = imported.Quantity ?? 0;
+                    currentRequest.ItemDetails.NumberOfRepeats = imported.Repeats ?? 0;
                     currentRequest.ItemDetails.Dose = imported.Dose;
                     currentRequest.ItemDetails.DoseFrequency = imported.DoseFrequency;
 
