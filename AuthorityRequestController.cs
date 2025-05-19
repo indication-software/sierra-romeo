@@ -190,7 +190,7 @@ You can report this message to info@sierraromeo.com.au.";
             catch (HttpRequestException e)
             {
                 // XXX
-                MessageBox.Show("An error occurred while requesting restriction questions: " + e.Message + " Your authority request may not be successful. Try selecting the item again.", "Sierra Romeo: Error",
+                MessageBox.Show("An error occurred while requesting restriction questions from" + url + ": " + e.Message + "\n\nYour authority request may not be successful. Try selecting the item again.", "Sierra Romeo: Error",
                     MessageBoxButton.OK, MessageBoxImage.Error);
                 return null;
             }
@@ -204,7 +204,7 @@ You can report this message to info@sierraromeo.com.au.";
             catch (JsonException e)
             {
                 // XXX
-                MessageBox.Show("An error occurred while decoding restriction questions: " + e.Message + " Your authority request may not be successful. Try selecting the item again.", "Sierra Romeo: Error",
+                MessageBox.Show("An error occurred while requesting restriction questions from" + url + ": " + e.Message + "\n\nPlease report this error to info@sierraromeo.com.au (push Ctrl-C now to copy this message).", "Sierra Romeo: Error",
                     MessageBoxButton.OK, MessageBoxImage.Error);
                 return null;
             }
