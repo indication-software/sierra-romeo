@@ -101,8 +101,30 @@
                         <ComboBoxItem Tag="7">Weekly</ComboBoxItem>
                         <ComboBoxItem Tag="14">Fortnightly</ComboBoxItem>
                         <ComboBoxItem Tag="30">Monthly</ComboBoxItem>
+                        <ComboBoxItem Tag="0">Every:</ComboBoxItem>
                     </ComboBox>
-                    <Label Content="Prescribed _quantity" VerticalAlignment="Center" Target="{Binding ElementName=quantityInput}" Margin="10,0,10,0" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0 7" IsVisibleChanged="StackPanel_IsVisibleChanged">
+                    <StackPanel.Style>
+                        <Style TargetType="{x:Type StackPanel}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=doseFrequencyInput,Path=SelectedItem.Content, Mode=OneWay}" Value="Every:">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+                    <Label Content="Every" VerticalAlignment="Center" Target="{Binding ElementName=doseInterval}" Margin="0,0,10,0" />
+                    <TextBox x:Name="doseInterval" MinWidth="40" IsEnabled="{Binding Editable}" Text="{Binding Path=ItemDetails.DoseInterval}" MaxLength="4" MaxLines="1" />
+                    <ComboBox x:Name="doseIntervalUnit" IsEnabled="{Binding Editable}" MinWidth="130" SelectedValuePath="Tag" SelectedValue="{Binding Path=ItemDetails.DoseIntervalUnit}">
+                        <ComboBoxItem Tag="1">Days</ComboBoxItem>
+                        <ComboBoxItem Tag="7">Weeks</ComboBoxItem>
+                        <ComboBoxItem Tag="30">Months</ComboBoxItem>
+                    </ComboBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0 7">
+                    <Label Content="Prescribed _quantity" VerticalAlignment="Center" Target="{Binding ElementName=quantityInput}" Margin="0,0,10,0" />
                     <TextBox x:Name="quantityInput" MinWidth="40" IsEnabled="{Binding Editable}" MaxLength="6" MaxLines="1">
                         <TextBox.Text>
                             <Binding Path="ItemDetails.Quantity" NotifyOnValidationError="True">

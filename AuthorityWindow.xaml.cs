@@ -365,5 +365,13 @@ namespace Sierra_Romeo
                 ValidationErrors.Remove(e.Error);
             }
         }
+
+        private void StackPanel_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            // Reset the interval/interval units on show or hide of the "every:" stackpanel
+            currentRequest.ItemDetails.DoseInterval = null;
+            currentRequest.ItemDetails.DoseIntervalUnit = null;
+            doseIntervalUnit.SelectedItem = null;
+        }
     }
 }

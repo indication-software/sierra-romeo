@@ -60,6 +60,10 @@ You can report this message to info@sierraromeo.com.au.";
 
         public async Task<AuthorityResponse> SubmitRequest(AuthorityRequest authRequest)
         {
+            if (authRequest.ItemDetails.DoseFrequency == -1)
+            {
+                authRequest.ItemDetails.DoseFrequency = 0;
+            }
             string jsonString = JsonSerializer.Serialize(authRequest, serializeOptions);
             string responseString;
             HttpResponseMessage response;
