@@ -11,6 +11,7 @@
  * the GNU General Public License for more details.
  */
 
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Data;
@@ -38,6 +39,9 @@ namespace Sierra_Romeo
         {
             RestrictionAnswers = new List<AuthorityAnswer>();
             DQMSRestrictionAnswers = new List<AuthorityDQAnswer>();
+
+            var missingQuestions = new List<string>();
+
             foreach (var q in RestrictionQuestions)
             {
                 if (q is RestrictionQuestionDetail qamsq)
@@ -49,13 +53,17 @@ namespace Sierra_Romeo
                     if (qamsq.RestrictionAnswerType == "LIST")
                     {
                         a.RestrictionAnswerListCode = qamsq.RestrictionAnswerList.RestrictionAnswerListCode;
-                        a.RestrictionAnswerID = qamsq.AnswerOption.RestrictionAnswerID.ToString();
+                        a.RestrictionAnswerID = qamsq.AnswerOption?.RestrictionAnswerID.ToString();
                     }
                     else
                     {
                         a.RestrictionQuestionAnswer = qamsq.AnswerText;
                     }
-                    /// XXX should enforce answers here from restrictionQuestionMandatory
+
+                    if (qamsq.RestrictionQuestionMandatory && a.RestrictionAnswerID == null && a.RestrictionQuestionAnswer == "")
+                    {
+                        missingQuestions.Add(qamsq.RestrictionQuestionText);
+                    }
                     RestrictionAnswers.Add(a);
                 }
                 else
@@ -65,7 +73,17 @@ namespace Sierra_Romeo
                     /// XXX it is theoretically possible to validate the form answers here, although complex
                 }
             }
-            DialogResult = true;
+
+            if (missingQuestions.Count > 0)
+            {
+                MessageBox.Show($"The following questions must be answered:\n\n{String.Join("\n", missingQuestions)}", "Sierra Romeo: Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            else
+            {
+                DialogResult = true;
+            }
         }
     }
 }
