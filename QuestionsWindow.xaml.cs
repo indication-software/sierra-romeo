@@ -25,6 +25,7 @@ namespace Sierra_Romeo
         public CompositeCollection RestrictionQuestions { get; set; }
         public List<AuthorityDQAnswer> DQMSRestrictionAnswers { get; set; }
         public List<AuthorityAnswer> RestrictionAnswers { get; set; }
+
         public QuestionsWindow(CompositeCollection RestrictionQuestions)
         {
             // Setting the property from the caller means the data is not available

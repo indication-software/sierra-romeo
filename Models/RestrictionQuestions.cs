@@ -72,7 +72,6 @@ namespace Sierra_Romeo
         public string RestrictionAnswerText { get; set; }
     }
 
-
     public class DynamicQandADetail
     {
         public Row[] Rows { get; set; }

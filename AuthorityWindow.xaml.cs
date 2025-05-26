@@ -264,7 +264,7 @@ namespace Sierra_Romeo
                     msg += string.Join("\n", validationMessages);
                     msg = msg.TrimEnd();
                     MessageBox.Show(msg, "Sierra Romeo: Warning",
-                    MessageBoxButton.OK, MessageBoxImage.Warning); ;
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
             }
