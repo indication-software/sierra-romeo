@@ -60,7 +60,7 @@ namespace Sierra_Romeo
                         a.RestrictionQuestionAnswer = qamsq.AnswerText;
                     }
 
-                    if (qamsq.RestrictionQuestionMandatory && a.RestrictionAnswerID == null && a.RestrictionQuestionAnswer == "")
+                    if (qamsq.RestrictionQuestionMandatory && a.RestrictionAnswerID == null && (a.RestrictionQuestionAnswer == null || a.RestrictionQuestionAnswer == ""))
                     {
                         missingQuestions.Add(qamsq.RestrictionQuestionText);
                     }
