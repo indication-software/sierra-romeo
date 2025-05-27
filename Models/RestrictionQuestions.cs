@@ -126,18 +126,6 @@ namespace Sierra_Romeo
         public Column[] Columns { get; set; }
     }
 
-    //public class DynamicQuestAnswerValue
-    //{
-    //    public string QuestId { get; set; }
-    //    public string QuestGroup { get; set; }
-    //    public string AnsDataType { get; set; }
-    //    public string AnsString { get; set; }
-    //    public double? AnsNumber { get; set; }
-    //    public DateTime AnsDate { get; set; }
-    //    public bool? AnsBool { get; set; }
-    //    public decimal AnsDecimal { get; set; }
-    //}
-
     public abstract class DQMSRestrictionQuestionBase
     {
         public string QuestionId { get; set; }
