@@ -13,6 +13,7 @@
 
 using HttpTracer;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -228,9 +229,9 @@ You can report this message to info@sierraromeo.com.au.";
             {
                 try
                 {
-                    foreach (var row in responseObj.DynamicQuestions.Rows)
+                    foreach (var question in TransformDQMSRows(responseObj.DynamicQuestions.Rows))
                     {
-                        collection.Add(TransformDQMSRow(row));
+                        collection.Add(question);
                     }
                 }
                 catch (NotImplementedException)
@@ -250,101 +251,109 @@ You can report this message to info@sierraromeo.com.au.";
             return collection;
         }
 
-        private DQMSRestrictionQuestionBase TransformDQMSRow(Row row)
+        private IEnumerable<DQMSRestrictionQuestionBase> TransformDQMSRows(Row[] rows)
         {
             /// The DQMS data model is not as straightforward as QAMS. In particular, the nature of the
             /// UI element needs to be derived from the question type, the number of grouped answers,
             /// and the data type of the answer
-            if (row.Columns.Length > 1)
+            foreach (Row row in rows)
             {
-                // A row with multiple columns is a group of checkboxes.
-                var header = row.Columns[0];
-                var q = new DQMSCheckboxList
+                foreach (Column this_col in row.Columns)
                 {
-                    QuestionText = header.QuestText,
-                    QuestionId = header.QuestId,
-                    QuestionGroup = header.QuestGroup,
-                    Questions = new DQMSCheckbox[row.Columns.Length - 1]
-                };
-                for (var i = 1; i < row.Columns.Length; i++)
-                {
-                    var this_q = row.Columns[i];
-                    if (this_q.QuestType != "CHKBOX")
+                    switch (this_col.QuestType)
                     {
-                        throw new NotImplementedException();
+                        case "HEADER":
+                            yield return new DQMSHeader
+                            {
+                                QuestionText = this_col.QuestText,
+                                QuestionId = this_col.QuestId,
+                                QuestionGroup = this_col.QuestGroup,
+                                Hint = this_col.HtmlHintText
+                            };
+                            break;
+
+                        case "CHKBOX" when this_col.AnsDataType == "IND":
+                            // Checkboxes appear in groups but are independent questions
+                            yield return new DQMSCheckbox
+                            {
+                                QuestionText = this_col.QuestText,
+                                QuestionId = this_col.QuestId,
+                                QuestionGroup = this_col.QuestGroup,
+                                Hint = this_col.HtmlHintText
+                            };
+                            break;
+
+                        case "INPUT" when this_col.AnsDataType == "IND":
+                            // Answer data types are not documented, but these appear to be "indicators": yes/no questions
+                            yield return new DQMSIndicator
+                            {
+                                QuestionText = this_col.QuestText,
+                                QuestionId = this_col.QuestId,
+                                QuestionGroup = this_col.QuestGroup,
+                                Hint = this_col.HtmlHintText
+                            };
+                            break;
+
+                        case "INPUT" when this_col.AnsDataType == "MULTLN":
+                            // Multi-line text field
+                            yield return new DQMSMultiLine
+                            {
+                                QuestionText = this_col.QuestText,
+                                QuestionId = this_col.QuestId,
+                                QuestionGroup = this_col.QuestGroup,
+                                Hint = this_col.HtmlHintText
+                            };
+                            break;
+
+                        case "INPUT" when this_col.AnsDataType == "DEC":
+                            // Decimal input
+                            yield return new DQMSDecimal
+                            {
+                                QuestionText = this_col.QuestText,
+                                QuestionId = this_col.QuestId,
+                                QuestionGroup = this_col.QuestGroup,
+                                Hint = this_col.HtmlHintText
+                            };
+                            break;
+
+                        case "INPUT" when this_col.AnsDataType == "DATE":
+                            // Decimal input
+                            yield return new DQMSDate
+                            {
+                                QuestionText = this_col.QuestText,
+                                QuestionId = this_col.QuestId,
+                                QuestionGroup = this_col.QuestGroup,
+                                Hint = this_col.HtmlHintText
+                            };
+                            break;
+
+                        case "RADGRP" when this_col.AnsDataType == "TEXT":
+                            var options = new DQMSRadioOption[this_col.AnsOptions.Length];
+                            for (int i = 0; i < this_col.AnsOptions.Length; i++)
+                            {
+                                options[i] = new DQMSRadioOption
+                                {
+                                    QuestionText = this_col.AnsOptions[i].OptText,
+                                    Value = this_col.AnsOptions[i].OptValue,
+                                    QuestionGroup = this_col.QuestGroup,
+                                };
+                            }
+                            yield return new DQMSRadioGroup
+                            {
+                                QuestionText = this_col.QuestText,
+                                QuestionId = this_col.QuestId,
+                                QuestionGroup = this_col.QuestGroup,
+                                Hint = this_col.HtmlHintText,
+                                Options = options,
+                            };
+                            break;
+
+                        default:
+                            throw new NotImplementedException();
+
                     }
-                    q.Questions[i - 1] = new DQMSCheckbox
-                    {
-                        QuestionText = this_q.QuestText,
-                        QuestionId = this_q.QuestId,
-                        QuestionGroup = this_q.QuestGroup,
-                        Hint = this_q.HtmlHintText
-                    };
                 }
-                return q;
             }
-
-            var col = row.Columns[0];
-
-            if (col.QuestType == "HEADER")
-            {
-                var q = new DQMSHeader
-                {
-                    QuestionText = col.QuestText,
-                    QuestionId = col.QuestId,
-                    QuestionGroup = col.QuestGroup,
-                    Hint = col.HtmlHintText
-                };
-            }
-
-            if (col.QuestType == "INPUT" && col.AnsDataType == "IND")
-            {
-                // Answer data types are not documented, but these appear to be "indicators": yes/no questions
-                var q = new DQMSIndicator
-                {
-                    QuestionText = col.QuestText,
-                    QuestionId = col.QuestId,
-                    QuestionGroup = col.QuestGroup,
-                    Hint = col.HtmlHintText
-                };
-                return q;
-            }
-
-            if (col.QuestType == "INPUT" && col.AnsDataType == "MULTLN")
-            {
-                var q = new DQMSMultiLine
-                {
-                    QuestionText = col.QuestText,
-                    QuestionId = col.QuestId,
-                    QuestionGroup = col.QuestGroup,
-                    Hint = col.HtmlHintText
-                };
-                return q;
-            }
-
-            if (col.QuestType == "RADGRP")
-            {
-                var q = new DQMSRadioGroup
-                {
-                    QuestionText = col.QuestText,
-                    QuestionId = col.QuestId,
-                    QuestionGroup = col.QuestGroup,
-                    Hint = col.HtmlHintText,
-                    Options = new DQMSRadioOption[col.AnsOptions.Length]
-                };
-                for (int i = 0; i < col.AnsOptions.Length; i++)
-                {
-                    q.Options[i] = new DQMSRadioOption
-                    {
-                        QuestionText = col.AnsOptions[i].OptText,
-                        Value = col.AnsOptions[i].OptValue,
-                        QuestionGroup = col.QuestGroup,
-                    };
-                }
-                return q;
-            }
-
-            throw new NotImplementedException();
         }
 
         public HttpRequestMessage PrepareRequest(string PrescriberId, Uri url, HttpMethod method, string json)

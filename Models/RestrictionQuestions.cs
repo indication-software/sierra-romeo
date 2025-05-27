@@ -11,6 +11,7 @@
  * the GNU General Public License for more details.
  */
 
+using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
@@ -189,20 +190,6 @@ namespace Sierra_Romeo
         }
     }
 
-    public class DQMSCheckboxList : DQMSRestrictionQuestionBase
-    {
-        public DQMSCheckbox[] Questions { get; set; }
-        public override List<AuthorityDQAnswer> GetQuestAnswerValues()
-        {
-            var ans = new List<AuthorityDQAnswer>();
-            foreach (var q in Questions)
-            {
-                ans.AddRange(q.GetQuestAnswerValues());
-            }
-            return ans;
-        }
-    }
-
     public class DQMSIndicator : DQMSRestrictionQuestionBase
     {
         public string Value { get; set; }
@@ -232,6 +219,57 @@ namespace Sierra_Romeo
                     Group = QuestionGroup,
                     AnswerDataType = "TEXT",
                     AnswerString = Value,
+                }
+            };
+        }
+    }
+
+    public class DQMSDecimal : DQMSRestrictionQuestionBase
+    {
+        public decimal Value { get; set; }
+
+        public override List<AuthorityDQAnswer> GetQuestAnswerValues()
+        {
+            return new List<AuthorityDQAnswer> { new AuthorityDQAnswer
+                {
+                    Id = QuestionId,
+                    Group = QuestionGroup,
+                    AnswerDataType = "DEC",
+                    AnswerDecimal = Value,
+                }
+            };
+        }
+    }
+
+    public class DQMSInteger : DQMSRestrictionQuestionBase
+    {
+        public int Value { get; set; }
+
+        public override List<AuthorityDQAnswer> GetQuestAnswerValues()
+        {
+            return new List<AuthorityDQAnswer> { new AuthorityDQAnswer
+                {
+                    Id = QuestionId,
+                    Group = QuestionGroup,
+                    AnswerDataType = "DEC",
+                    AnswerNumber = Value,
+                }
+            };
+        }
+    }
+
+    public class DQMSDate : DQMSRestrictionQuestionBase
+    {
+        public DateTime Value { get; set; }
+
+        public override List<AuthorityDQAnswer> GetQuestAnswerValues()
+        {
+            return new List<AuthorityDQAnswer> { new AuthorityDQAnswer
+                {
+                    Id = QuestionId,
+                    Group = QuestionGroup,
+                    AnswerDataType = "DATE",
+                    AnswerDateTime = Value,
                 }
             };
         }
