@@ -117,15 +117,6 @@ namespace Sierra_Romeo
         public Dictionary<string, object> ExtensionData { get; set; }
     }
 
-    public class DQMSRestrictionQuestion
-    {
-        public int DisplayOrder { get; set; }
-        public string ActivationTypeCode { get; set; }
-        public string ActivationRefId { get; set; }
-        public string ActivationMappingType { get; set; }
-        public Column[] Columns { get; set; }
-    }
-
     public abstract class DQMSRestrictionQuestionBase
     {
         public string QuestionId { get; set; }
