@@ -148,7 +148,7 @@ namespace Sierra_Romeo
             var c = new FormUrlEncodedContent(requestParams);
             Debug.WriteLine($"Sending token request to {endpoint}");
             var requestTime = DateTime.Now;
-            string responseString = "";
+            string responseString;
             try
             {
                 HttpResponseMessage response = await client.PostAsync(endpoint, c);
