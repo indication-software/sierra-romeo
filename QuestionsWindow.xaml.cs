@@ -69,7 +69,7 @@ namespace Sierra_Romeo
                 else
                 {
                     DQMSRestrictionQuestionBase dqmsq = q as DQMSRestrictionQuestionBase;
-                    DQMSRestrictionAnswers.AddRange(dqmsq.GetQuestAnswerValues());
+                    DQMSRestrictionAnswers.Add(dqmsq.GetQuestAnswerValue());
                     /// XXX it is theoretically possible to validate the form answers here, although complex
                 }
             }

@@ -132,7 +132,7 @@ namespace Sierra_Romeo
         public string QuestionText { get; set; }
         public string QuestionGroup { get; set; }
         public string Hint { get; set; }
-        public abstract List<AuthorityDQAnswer> GetQuestAnswerValues();
+        public abstract AuthorityDQAnswer GetQuestAnswerValue();
     }
 
     public class DQMSRadioOption
@@ -148,15 +148,14 @@ namespace Sierra_Romeo
 
         public DQMSRadioOption[] Options { get; set; }
 
-        public override List<AuthorityDQAnswer> GetQuestAnswerValues()
+        public override AuthorityDQAnswer GetQuestAnswerValue()
         {
-            return new List<AuthorityDQAnswer> { new AuthorityDQAnswer
-                {
-                    Id = QuestionId,
-                    Group = QuestionGroup,
-                    AnswerDataType = "TEXT",
-                    AnswerString = Value,
-                }
+            return new AuthorityDQAnswer
+            {
+                Id = QuestionId,
+                Group = QuestionGroup,
+                AnswerDataType = "TEXT",
+                AnswerString = Value,
             };
         }
     }
@@ -165,15 +164,15 @@ namespace Sierra_Romeo
     {
         public bool Value { get; set; }
 
-        public override List<AuthorityDQAnswer> GetQuestAnswerValues()
+        public override AuthorityDQAnswer GetQuestAnswerValue()
         {
-            return new List<AuthorityDQAnswer> { new AuthorityDQAnswer
-                {
-                    Id = QuestionId,
-                    Group = QuestionGroup,
-                    AnswerDataType= "IND",
-                    AnswerString = Value? "Y": "N",
-                }
+            return new AuthorityDQAnswer
+            {
+                Id = QuestionId,
+                Group = QuestionGroup,
+                AnswerDataType = "IND",
+                AnswerString = Value ? "Y" : "N",
+
             };
         }
     }
@@ -182,15 +181,14 @@ namespace Sierra_Romeo
     {
         public string Value { get; set; }
 
-        public override List<AuthorityDQAnswer> GetQuestAnswerValues()
+        public override AuthorityDQAnswer GetQuestAnswerValue()
         {
-            return new List<AuthorityDQAnswer> { new AuthorityDQAnswer
-                {
-                    Id = QuestionId,
-                    Group = QuestionGroup,
-                    AnswerDataType= "IND",
-                    AnswerString = Value?.ToString()
-                }
+            return new AuthorityDQAnswer
+            {
+                Id = QuestionId,
+                Group = QuestionGroup,
+                AnswerDataType = "IND",
+                AnswerString = Value?.ToString()
             };
         }
     }
@@ -199,15 +197,14 @@ namespace Sierra_Romeo
     {
         public string Value { get; set; }
 
-        public override List<AuthorityDQAnswer> GetQuestAnswerValues()
+        public override AuthorityDQAnswer GetQuestAnswerValue()
         {
-            return new List<AuthorityDQAnswer> { new AuthorityDQAnswer
-                {
-                    Id = QuestionId,
-                    Group = QuestionGroup,
-                    AnswerDataType = "TEXT",
-                    AnswerString = Value,
-                }
+            return new AuthorityDQAnswer
+            {
+                Id = QuestionId,
+                Group = QuestionGroup,
+                AnswerDataType = "TEXT",
+                AnswerString = Value,
             };
         }
     }
@@ -216,15 +213,14 @@ namespace Sierra_Romeo
     {
         public decimal Value { get; set; }
 
-        public override List<AuthorityDQAnswer> GetQuestAnswerValues()
+        public override AuthorityDQAnswer GetQuestAnswerValue()
         {
-            return new List<AuthorityDQAnswer> { new AuthorityDQAnswer
-                {
-                    Id = QuestionId,
-                    Group = QuestionGroup,
-                    AnswerDataType = "DEC",
-                    AnswerDecimal = Value,
-                }
+            return new AuthorityDQAnswer
+            {
+                Id = QuestionId,
+                Group = QuestionGroup,
+                AnswerDataType = "DEC",
+                AnswerDecimal = Value,
             };
         }
     }
@@ -233,15 +229,14 @@ namespace Sierra_Romeo
     {
         public int Value { get; set; }
 
-        public override List<AuthorityDQAnswer> GetQuestAnswerValues()
+        public override AuthorityDQAnswer GetQuestAnswerValue()
         {
-            return new List<AuthorityDQAnswer> { new AuthorityDQAnswer
-                {
-                    Id = QuestionId,
-                    Group = QuestionGroup,
-                    AnswerDataType = "DEC",
-                    AnswerNumber = Value,
-                }
+            return new AuthorityDQAnswer
+            {
+                Id = QuestionId,
+                Group = QuestionGroup,
+                AnswerDataType = "DEC",
+                AnswerNumber = Value,
             };
         }
     }
@@ -250,15 +245,14 @@ namespace Sierra_Romeo
     {
         public DateTime Value { get; set; }
 
-        public override List<AuthorityDQAnswer> GetQuestAnswerValues()
+        public override AuthorityDQAnswer GetQuestAnswerValue()
         {
-            return new List<AuthorityDQAnswer> { new AuthorityDQAnswer
-                {
-                    Id = QuestionId,
-                    Group = QuestionGroup,
-                    AnswerDataType = "DATE",
-                    AnswerDateTime = Value,
-                }
+            return new AuthorityDQAnswer
+            {
+                Id = QuestionId,
+                Group = QuestionGroup,
+                AnswerDataType = "DATE",
+                AnswerDateTime = Value,
             };
         }
     }
@@ -267,22 +261,21 @@ namespace Sierra_Romeo
     {
         public string Value { get; set; }
 
-        public override List<AuthorityDQAnswer> GetQuestAnswerValues()
+        public override AuthorityDQAnswer GetQuestAnswerValue()
         {
-            return new List<AuthorityDQAnswer> { new AuthorityDQAnswer
-                {
-                    Id = QuestionId,
-                    Group = QuestionGroup,
-                    AnswerDataType = "MULTLN",
-                    AnswerString = Value,
-                }
+            return new AuthorityDQAnswer
+            {
+                Id = QuestionId,
+                Group = QuestionGroup,
+                AnswerDataType = "MULTLN",
+                AnswerString = Value,
             };
         }
     }
 
     public class DQMSHeader : DQMSRestrictionQuestionBase
     {
-        public override List<AuthorityDQAnswer> GetQuestAnswerValues()
+        public override AuthorityDQAnswer GetQuestAnswerValue()
         {
             return null;
         }
