@@ -234,7 +234,7 @@ namespace Sierra_Romeo
 
     public class DQMSDate : DQMSRestrictionQuestionBase
     {
-        public DateTime Value { get; set; }
+        public DateTime Value { get; set; } = DateTime.Today;
 
         public override AuthorityDQAnswer GetQuestAnswerValue()
         {
