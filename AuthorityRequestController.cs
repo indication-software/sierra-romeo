@@ -305,6 +305,17 @@ You can report this message to info@sierraromeo.com.au.";
                             };
                             break;
 
+                        case "INPUT" when this_col.AnsDataType == "INT":
+                            // Integer input
+                            yield return new DQMSInteger
+                            {
+                                QuestionText = this_col.QuestText,
+                                QuestionId = this_col.QuestId,
+                                QuestionGroup = this_col.QuestGroup,
+                                Hint = this_col.HtmlHintText
+                            };
+                            break;
+
                         case "INPUT" when this_col.AnsDataType == "DEC":
                             // Decimal input
                             yield return new DQMSDecimal
