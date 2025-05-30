@@ -32,6 +32,7 @@ namespace Sierra_Romeo
             // Setting the property from the caller means the data is not available
             // when the components are initalised, so do it in the constructor instead
             this.RestrictionQuestions = RestrictionQuestions;
+            MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
             InitializeComponent();
         }
 
