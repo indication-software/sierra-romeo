@@ -35,10 +35,10 @@
         <DataTemplate DataType="{x:Type local:DQMSIndicator}">
             <StackPanel Margin="5" Orientation="Horizontal">
                 <Label Margin="0 5 0 0" Content="{Binding Path=QuestionText}" />
-                <ListBox Margin="10 0 5 0" MinWidth="130" SelectedValuePath="Name" SelectedValue="{Binding Path=Value,Mode=OneWayToSource}">
-                    <ListBoxItem x:Name="Y">Yes</ListBoxItem>
-                    <ListBoxItem x:Name="N">No</ListBoxItem>
-                </ListBox>
+                <ComboBox Margin="10 0 5 0" MinWidth="130" SelectedValuePath="Name" SelectedValue="{Binding Path=Value,Mode=OneWayToSource}">
+                    <ComboBoxItem x:Name="Y">Yes</ComboBoxItem>
+                    <ComboBoxItem x:Name="N">No</ComboBoxItem>
+                </ComboBox>
             </StackPanel>
         </DataTemplate>
         <DataTemplate DataType="{x:Type local:DQMSCheckbox}">
@@ -55,7 +55,7 @@
         <DataTemplate DataType="{x:Type local:DQMSRadioGroup}">
             <StackPanel Margin="5" Orientation="Horizontal">
                 <Label Padding="0 5 0 0" Content="{Binding Path=QuestionText}" />
-                <ListBox Margin="10 0 5 0" MinWidth="130" ItemsSource="{Binding Path=Options}" DisplayMemberPath="QuestionText" SelectedValuePath="Value" SelectedValue="{Binding Path=Value}" />
+                <ComboBox Margin="10 0 5 0" MinWidth="130" ItemsSource="{Binding Path=Options}" DisplayMemberPath="QuestionText" SelectedValuePath="Value" SelectedValue="{Binding Path=Value}" />
             </StackPanel>
         </DataTemplate>
         <DataTemplate DataType="{x:Type local:DQMSMultiLine}">
