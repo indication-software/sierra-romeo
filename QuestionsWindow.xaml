@@ -76,11 +76,13 @@
             </StackPanel>
         </DataTemplate>
     </Window.Resources>
-    <StackPanel Orientation="Vertical" Margin="5" CanVerticallyScroll="True">
-        <ItemsControl ItemsSource="{Binding RestrictionQuestions}" />
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="OK" Margin="10" Padding="10,10" Click="OK_Click" />
-            <Button Content="Cancel" Margin="10" Padding="10,10" IsCancel="True" />
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Orientation="Vertical" Margin="5">
+            <ItemsControl ItemsSource="{Binding RestrictionQuestions}" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="OK" Margin="10" Padding="10,10" Click="OK_Click" />
+                <Button Content="Cancel" Margin="10" Padding="10,10" IsCancel="True" />
+            </StackPanel>
         </StackPanel>
-    </StackPanel>
+    </ScrollViewer>
 </Window>
